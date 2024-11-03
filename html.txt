@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+</head>
+<body>
+
+<div class="chatbot-container">
+  <div class="chatbot-header">附属中時間割チャットボット</div>
+  <div class="chatbot-messages" id="chatbotMessages"></div>
+  <div class="chatbot-input">
+    <input type="text" id="userInput" placeholder="メッセージを入力...">
+    <button onclick="sendMessage()">送信</button>
+  </div>
+</div>
+
+</body>
+</html>
