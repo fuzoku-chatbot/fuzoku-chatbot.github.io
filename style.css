@@ -187,3 +187,16 @@ body {
     /* 上に移動 */
   }
 }
+
+.footer {
+  position: fixed;
+  bottom: 0; /* 画面の一番下に固定 */
+  left: 0; /* 左端に配置 */
+  width: 100%; /* 幅を100%に設定 */
+  background-color: #f1f1f1; /* 背景色 */
+  text-align: center; /* テキストを中央揃え */
+  padding: 10px 0; /* 上下のパディング */
+  font-size: 14px; /* フォントサイズ */
+  color: #555; /* テキストカラー */
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* 上に軽い影を追加 */
+}
