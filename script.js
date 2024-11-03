@@ -27,7 +27,7 @@ function ask(userQuestion) {
   setTimeout((function() {
     (async() => {
       const parsedUserQuestion = parseUserQuestion(userQuestion);
-      sendLog(userQuestion, parsedUserQuestion);
+      sendLog(userQuestion, String(parsedUserQuestion));
       if ((parsedUserQuestion.searchWord == '') || (parsedUserQuestion.needKey
           .length == 0)) {
         post('ごめんなさい！その質問はわからないや…');
