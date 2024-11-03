@@ -1,3 +1,20 @@
+
+// ～は登校日ではありませんのところまでは実装＆デバッグ完了
+// あとはneedKeyに合わせた情報の返答と、できれば効果音も欲しいかも
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // post関数 - ボットからのメッセージを表示
 function post(content) {
 	const messageContainer = document.createElement('div');
@@ -34,15 +51,14 @@ function ask(userQuestion) {
     } else {
 		  const result = await fetchData(parsedUserQuestion.searchWord);
       const japaneseDate = parsedUserQuestion.searchWord.replace(/(\d{4})_(\d{2})_(\d{2})/, '$1年$2月$3日');
-      console.log(result);
-		  if (result.startsWith('error:')) {
-        if (result.endsWith('400') || result.endsWith('401')) post('プログラムのエラーが発生してしまいました (｡•́ - •̀｡)');loadingMessage.remove();
-        if (result.endsWith('404')) post(japaneseDate+'の時間割が見つかりませんでした (｡•́ - •̀｡)');loadingMessage.remove();
-        if (result.endsWith('429')) post('サーバへのアクセスが集中しているため、現在利用できません (｡•́ - •̀｡)');loadingMessage.remove();
-        if (result.endsWith('500') || result.endsWith('502') || result.endsWith('503') || result.endsWith('504')) post('サーバでエラーが発生してしまいました (｡•́ - •̀｡)');loadingMessage.remove();
-        if (result.endsWith('414')) post('リクエストが長いためエラーが発生してしまいました (｡•́ - •̀｡)');loadingMessage.remove();
+		  if (String(result).startsWith('error:') === true) {
+        if (result.endsWith('400') || result.endsWith('401')) post('プログラムのエラーが発生してしまいました (｡•́ - •̀｡)');
+        if (result.endsWith('404')) post(japaneseDate+'の時間割が見つかりませんでした (｡•́ - •̀｡)');
+        if (result.endsWith('429')) post('サーバへのアクセスが集中しているため、現在利用できません (｡•́ - •̀｡)');
+        if (result.endsWith('500') || result.endsWith('502') || result.endsWith('503') || result.endsWith('504')) post('サーバでエラーが発生してしまいました (｡•́ - •̀｡)');
+        if (result.endsWith('414')) post('リクエストが長いためエラーが発生してしまいました (｡•́ - •̀｡)');
+        loadingMessage.remove();
       } else {
-        console.log('else');
         if (result.attendance == false) post(japaneseDate+'は登校日ではありません');
 		    loadingMessage.remove();
       }
