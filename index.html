@@ -18,6 +18,102 @@
   <!-- /Google tag (gtag.js) -->
 </head>
 <body>
+<!-- loader -->
+<style>
+  loader-background {
+    width: 100vw;
+    height: 100vh;
+    transition: all 1s;
+    background-color: #ffffff;
+    position: fixed;
+    top: auto;
+    left: auto;
+    z-index: 9999;
+  }
+  .loader,
+  .loader:before,
+  .loader:after {
+    background: #8f8f8f;
+    -webkit-animation: load1 1s infinite ease-in-out;
+    animation: load1 1s infinite ease-in-out;
+    width: 1em;
+    height: 4em;
+  }
+  .loader {
+    color: #8f8f8f;
+    text-indent: -9999em;
+    /*margin: 88px auto;*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -25px;
+    font-size: 11px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
+  .loader:before,
+  .loader:after {
+    position: absolute;
+    top: 0;
+    content: '';
+  }
+  .loader:before {
+    left: -1.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+  .loader:after {
+    left: 1.5em;
+  }
+  @-webkit-keyframes load1 {
+    0%,
+    80%,
+    100% {
+      box-shadow: 0 0;
+      height: 4em;
+    }
+    40% {
+      box-shadow: 0 -2em;
+      height: 5em;
+    }
+  }
+  @keyframes load1 {
+    0%,
+    80%,
+    100% {
+      box-shadow: 0 0;
+      height: 4em;
+    }
+    40% {
+      box-shadow: 0 -2em;
+      height: 5em;
+    }
+  }
+  .loaded {
+    opacity: 0;
+    visibility: hidden;
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loader = document.querySelector(".loader-background");
+    const minimumDisplayTime = 1000; // 最低一秒間表示
+    const addLoadedClass = () => {
+      if (document.readyState === "complete") {
+        loader.classList.add("loaded");
+      }
+    };
+    setTimeout(addLoadedClass, minimumDisplayTime); // ロードが終わっていたら付与
+    window.addEventListener("load", addLoadedClass); // ロード終了後にもう一回挑戦
+});
+</script>
+<div class="loader-background">
+  <div class="loader">Loading...</div>
+</div>
+<!-- /loader -->
 
 <div class="chatbot-container">
   <div class="chatbot-header">２E時間割チャットボット</div>
