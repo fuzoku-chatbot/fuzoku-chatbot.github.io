@@ -1,0 +1,253 @@
+// post関数 - ボットからのメッセージを表示
+function post(content) {
+	const messageContainer = document.createElement('div');
+	messageContainer.classList.add('message', 'bot');
+	const messageBubble = document.createElement('div');
+	messageBubble.classList.add('bubble');
+	messageBubble.innerHTML = content; //リッチテキストもできるようにしてある
+	messageContainer.appendChild(messageBubble);
+	document.getElementById('chatbotMessages').appendChild(messageContainer);
+	scrollToBottom();
+}
+
+// ask関数 - 応答ロジック
+function ask(userQuestion) {
+	// ローディング表示
+	const loadingMessage = document.createElement('div');
+	loadingMessage.classList.add('message', 'bot', 'loading');
+	loadingMessage.textContent = '...';
+	document.getElementById('chatbotMessages').appendChild(loadingMessage);
+	scrollToBottom();
+
+  // 取得機構
+	(async() => {
+    const parsedUserQuestion = parseUserQuestion(userQuestion);
+    console.log(parsedUserQuestion);
+    if ((parsedUserQuestion.searchWord == '') || (parsedUserQuestion.needKey.length == 0)) {
+      setTimeout(
+        (function() {
+          post('ごめん！その質問はわからないや…');
+          post('検索フレーズを変えてもう一度質問してみて！');
+          loadingMessage.remove();
+        })
+      , 1000);
+    } else {
+		  const result = await fetchData(parsedUserQuestion.searchWord);
+      const japaneseDate = parsedUserQuestion.searchWord.replace(/(\d{4})_(\d{2})_(\d{2})/, '$1年$2月$3日');
+      console.log(result);
+		  if (result.startsWith('error:')) {
+        if (result.endsWith('400') || result.endsWith('401')) post('プログラムのエラーが発生してしまいました (｡•́ - •̀｡)');loadingMessage.remove();
+        if (result.endsWith('404')) post(japaneseDate+'の時間割が見つかりませんでした (｡•́ - •̀｡)');loadingMessage.remove();
+        if (result.endsWith('429')) post('サーバへのアクセスが集中しているため、現在利用できません (｡•́ - •̀｡)');loadingMessage.remove();
+        if (result.endsWith('500') || result.endsWith('502') || result.endsWith('503') || result.endsWith('504')) post('サーバでエラーが発生してしまいました (｡•́ - •̀｡)');loadingMessage.remove();
+        if (result.endsWith('414')) post('リクエストが長いためエラーが発生してしまいました (｡•́ - •̀｡)');loadingMessage.remove();
+      } else {
+        console.log('else');
+        if (result.attendance == false) post(japaneseDate+'は登校日ではありません');
+		    loadingMessage.remove();
+      }
+    }
+	})();
+}
+
+// sendMessage関数 - 入力されたのを処理
+function sendMessage() {
+	const userInput = document.getElementById('userInput');
+	const userText = userInput.value.trim();
+	if (userText === '') return;
+
+	// ユーザーのメッセージを表示
+	const messageContainer = document.createElement('div');
+	messageContainer.classList.add('message', 'user');
+	const messageBubble = document.createElement('div');
+	messageBubble.classList.add('bubble');
+	messageBubble.textContent = userText;
+	messageContainer.appendChild(messageBubble);
+	document.getElementById('chatbotMessages').appendChild(messageContainer);
+
+	// ask関数を呼び出し
+	ask(userText);
+
+	// 入力欄をクリア
+	userInput.value = '';
+	scrollToBottom();
+}
+
+// scrollToBottom関数 - 下までスクロール
+function scrollToBottom() {
+	const messagesContainer = document.getElementById('chatbotMessages');
+	messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// fetchData関数 - DBから取得
+async function fetchData(date) {
+	try {
+		const response = await fetch(
+			`https://gu98aazh13.microcms.io/api/v1/timetable/${date}`, {
+				method: 'GET',
+				headers: {
+					'X-MICROCMS-API-KEY': 'ppE8q49tSAAXCyCsLIPa8zBaaz0BtKu2BQfL',
+					'Content-Type': 'application/json'
+				}
+			});
+		if (!response.ok) {
+			throw new Error(response.status);
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error(`Error fetching data: ${error.message}`);
+		return `error:${error.message}`;
+	}
+}
+
+// parseUserQuestion関数 - 質問を上手い具合に変換
+function parseUserQuestion(userQuestion) {
+    let searchWord = '';
+    let needKey = [];
+
+    // 今日と明日の判定
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const dayAfterTomorrow = new Date(tomorrow);
+    dayAfterTomorrow.setDate(tomorrow.getDate() + 1);
+
+    // 今日の日付をゼロパディングして作成
+    const formatDate = (date) => {
+        const year = String(date.getFullYear()).padStart(4, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}_${month}_${day}`;
+    };
+
+    // 数字を順位に変換
+    const convertToOrdinal = (num) => {
+        if (num === 1) return '1st';
+        if (num === 2) return '2nd';
+        if (num === 3) return '3rd';
+        return num + 'th';
+    };
+
+    // 全角数字を半角に変換
+    const fullWidthToHalfWidth = (str) => {
+        return str.replace(/[\uFF10-\uFF19]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
+    };
+
+    // 漢数字を数値に変換
+    const kanjiToNumber = (kanji) => {
+        const kanjiNumbers = {
+            '〇': 0, '一': 1, '二': 2, '三': 3, '四': 4,
+            '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10
+        };
+        let num = 0;
+        let current = 0;
+        let isTen = false; // 十があるかどうか
+
+        for (const char of kanji) {
+            if (char in kanjiNumbers) {
+                const value = kanjiNumbers[char];
+                if (value === 10) {
+                    if (current === 0) current = 1; // 1つもない場合は1とする
+                    isTen = true;
+                } else {
+                    current = current * 10 + value;
+                    if (isTen) {
+                        num += current * 10;
+                        current = 0;
+                        isTen = false;
+                    }
+                }
+            }
+        }
+        return num + current;
+    };
+
+    // ユーザーの質問に応じた処理
+    if (userQuestion.match(/今日の時間割(は？)?|きょうの時間割(は？)?|今日の予定(は？)?|きょうの予定(は？)?/)) {
+        searchWord = formatDate(today);
+        needKey.push('all');
+    } else if (userQuestion.match(/明日の時間割(は？)?|あしたの時間割(は？)?|あすの時間割(は？)?|明日の予定(は？)?|あしたの予定(は？)?|あすの予定(は？)?/
+)) {
+        searchWord = formatDate(tomorrow);
+        needKey.push('all');
+    } else if (userQuestion.match(/明後日の時間割(は？)?|あさっての時間割(は？)?|みょうごにちの時間割(は？)?|明後日の予定(は？)?|あさっての予定(は？)?|みょうごにちの予定(は？)?/
+)) {
+        searchWord = formatDate(dayAfterTomorrow);
+        needKey.push('all');
+    } else if (userQuestion.match(/(\d+|〇|一|二|三|四|五|六|七|八|九|十)(?:月|がつ)(\d+|〇|一|二|三|四|五|六|七|八|九|十)(?:日|にち)/)) {
+        const [, month, day] = userQuestion.match(/(\d+|〇|一|二|三|四|五|六|七|八|九|十)(?:月|がつ)(\d+|〇|一|二|三|四|五|六|七|八|九|十)(?:日|にち)/);
+        const targetDate = new Date(today.getFullYear(), month - 1, day);
+        searchWord = formatDate(targetDate);
+        needKey.push('all');
+    } else if (userQuestion.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/)) {
+        const [, year, month, day] = userQuestion.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+        const targetDate = new Date(year, month - 1, day);
+        searchWord = formatDate(targetDate);
+        needKey.push('all');
+    } else if (userQuestion.match(/今日の?([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/) || 
+               userQuestion.match(/きょうの?([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/)) {
+        const hourMatches = userQuestion.match(/([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/g);
+        if (hourMatches) {
+            hourMatches.forEach(hour => {
+                const numStr = fullWidthToHalfWidth(hour.replace(/時間目/, ''));
+                const num = isNaN(numStr) ? kanjiToNumber(numStr) : parseInt(numStr, 10);
+                needKey.push(convertToOrdinal(num)); // 1st、2ndの形式に変換
+            });
+            searchWord = formatDate(today);
+        }
+    } else if (userQuestion.match(/明日の?([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/) || 
+               userQuestion.match(/あしたの?([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/) || 
+               userQuestion.match(/あすの?([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/)) {
+        const hourMatches = userQuestion.match(/([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/g);
+        if (hourMatches) {
+            hourMatches.forEach(hour => {
+                const numStr = fullWidthToHalfWidth(hour.replace(/時間目/, ''));
+                const num = isNaN(numStr) ? kanjiToNumber(numStr) : parseInt(numStr, 10);
+                needKey.push(convertToOrdinal(num)); // 1st、2ndの形式に変換
+            });
+            searchWord = formatDate(tomorrow);
+        }
+    } else if (userQuestion.match(/明後日の?([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/) || 
+               userQuestion.match(/あさっての?([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/) || 
+               userQuestion.match(/みょうごにちの?([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/)) {
+        const hourMatches = userQuestion.match(/([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/g);
+        if (hourMatches) {
+            hourMatches.forEach(hour => {
+                const numStr = fullWidthToHalfWidth(hour.replace(/時間目/, ''));
+                const num = isNaN(numStr) ? kanjiToNumber(numStr) : parseInt(numStr, 10);
+                needKey.push(convertToOrdinal(num)); // 1st、2ndの形式に変換
+            });
+            searchWord = formatDate(dayAfterTomorrow);
+        }
+    } else if (userQuestion.match(/朝と([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/) || 
+               userQuestion.match(/あさと([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/)) {
+        const hourMatches = userQuestion.match(/([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/g);
+        if (hourMatches) {
+            hourMatches.forEach(hour => {
+                const numStr = fullWidthToHalfWidth(hour.replace(/時間目/, ''));
+                const num = isNaN(numStr) ? kanjiToNumber(numStr) : parseInt(numStr, 10);
+                needKey.push(convertToOrdinal(num)); // 1st、2ndの形式に変換
+            });
+            searchWord = formatDate(today);
+            needKey.push('morning');
+        }
+    } else if (userQuestion.match(/放課後と([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/) || 
+               userQuestion.match(/ほうかごと([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/)) {
+        const hourMatches = userQuestion.match(/([\d０-９]+|〇|一|二|三|四|五|六|七|八|九|十)(?:時間目)/g);
+        if (hourMatches) {
+            hourMatches.forEach(hour => {
+                const numStr = fullWidthToHalfWidth(hour.replace(/時間目/, ''));
+                const num = isNaN(numStr) ? kanjiToNumber(numStr) : parseInt(numStr, 10);
+                needKey.push(convertToOrdinal(num)); // 1st、2ndの形式に変換
+            });
+            searchWord = formatDate(today);
+            needKey.push('after');
+        }
+    }
+
+    return { searchWord, needKey };
+}
+
+post('ようこそ！附属中時間割ボットへ！');
+post('「今日の時間割」や「明日の時間割」、「〇〇月〇〇日の時間割」など入力すると、その日の時間割を確認することができます (๑•̀ㅂ•́)و');
