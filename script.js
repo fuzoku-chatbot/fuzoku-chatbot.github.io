@@ -27,7 +27,7 @@ function ask(userQuestion) {
   setTimeout((function() {
     (async() => {
       const parsedUserQuestion = parseUserQuestion(userQuestion);
-      console.log(parsedUserQuestion);
+      sendLog(userQuestion, parsedUserQuestion);
       if ((parsedUserQuestion.searchWord == '') || (parsedUserQuestion.needKey
           .length == 0)) {
         post('ごめんなさい！その質問はわからないや…');
@@ -304,6 +304,12 @@ function convertText(input) {
     .replace(/5th/g, '5時間目')
     .replace(/6th/g, '6時間目')
     .replace(/7th/g, '7時間目');
+}
+
+// 
+function sendLog(question, req) {
+  fetch('https://script.googleusercontent.com/macros/echo?user_content_key=qm-KzMcBpAO6YKxX73XNIdrqpNds0i9HJjUF0AylvXIcH9Eh_h8GqibrFnaPMqqbOw18EpW25AvJ4RxdQHa-o0XWL89V3yOdm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnGvMhpFAAClF_JjDOf2cnF9G6hvnM2m4kQ-9B9f5PCQi35jHhAYfv18MqIj8JpDCxAYkw-Eorv0nSSwMt2Owc1DlqWE3JvniM2XjC8bHY47PYRx-LZK7JFU&lib=M3AjQCeuspnVx7Pfvd0tUnlpWb4tT7g-d'
+        +'?ip='+ip+'&question='+question+'&req='+req)
 }
 
 window.addEventListener('load', function() {
