@@ -25,18 +25,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const script = document.createElement('script');
         script.src = '/app/script.js';
-        await new Promise((resolve, reject) => {
-          script.onload = () => {
-            document.cookie = "auth_token=" + encodeURIComponent(JSON.stringify(token)) + "; max-age=86400";
-            resolve();
-          };
-          script.onerror = () => {
-            document.cookie = "auth_token=; max-age=0";
-            window.location.href = '/error?status=500';
-            reject(new Error('Script load error'));
-          };
-          document.head.appendChild(script);
-        });
+        document.head.appendChild(script);
+        document.cookie = "auth_token=; max-age=0";
       } catch(e) {
         window.location.href = '/error?status=500&msg='+encodedURIComponent(e.message);
       }
