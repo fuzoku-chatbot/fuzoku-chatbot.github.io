@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     return null;
   }
   const token = JSON.parse(decodeURIComponent(getCookieValue('authToken')));
+  window.alert(token['access_token']);
   
-  if ((authed == 'true') && (token.access_token != 'undefined')) {
+  if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     try {
       const response = await fetch('/app/script.js');
       const scriptContent = await response.text();
