@@ -22,11 +22,7 @@ function getCookieValue(name) {
     }
   } else {
     try{
-    const authElement = document.getElementById('auth-background');
-    window.alert(authElement.length);
-    if (authElement) {
-      authElement.classList.remove('authed');
-    }
+    document.getElementById('auth-background').classList.remove('authed');
     url.searchParams.remove('authed');
     document.cookie = "authToken=; max-age=0";
     }catch(error){window.alert(error.message)}
