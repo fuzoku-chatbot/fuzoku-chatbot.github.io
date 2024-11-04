@@ -5,11 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ログイン中</title>
   <style>
-    .loader-background {
+  html {
     width: 100vw;
     height: 100vh;
-    transition: all 1s;
-    background-color: rgba(255, 255, 255, 0.8);
+  }
+  .loader-background {
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
     position: fixed;
     top: auto;
     left: auto;
@@ -80,6 +83,8 @@
   </style>
 </head>
 <body>
-
+  <div class="loader-background">
+    <div class="loader">Loading...</div>
+  </div>
 </body>
 </html>
