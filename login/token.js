@@ -33,7 +33,6 @@ if (!authCode) {
       window.location.replace('/error?status=' + encodeURIComponent(error.message));
     }
   })();
-  window.alert(token);
-  // document.cookie = `authToken=${token}; max-age=120; secure`;
-  // window.location.replace('/?authed=true');
+  document.cookie = `authToken=${token}; max-age=120; secure`;
+  window.location.replace('/?authed=true');
 }
