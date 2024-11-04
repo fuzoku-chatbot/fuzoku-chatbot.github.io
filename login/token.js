@@ -1,6 +1,6 @@
 let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
-alert(authCode);
+window.alert(authCode);
 /*
 if (!authCode) { window.location.replace('/error?status=400');
 } else {
@@ -29,3 +29,4 @@ if (!authCode) { window.location.replace('/error?status=400');
   }
 })();
 }
+*/
