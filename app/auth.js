@@ -26,10 +26,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const script = document.createElement('script');
         script.src = '/app/script.js';
         script.defer = true;
-        let userName = userData['name'];
         script.onload = () => {
           document.cookie = "auth_token=; max-age=0";
-          initialize();
+          setTimeout( () => {
+            functioninitialize()
+          }, 1000);
         };
         script.onerror = () => {
           document.cookie = "auth_token=; max-age=0";
