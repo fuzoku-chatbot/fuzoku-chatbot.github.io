@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (authBackground) {
       authBackground.classList.remove('authed');
     } else {
-      console.error("Element with ID 'authbackground' not found.");
+      window.alert("Element with ID 'authbackground' not found.");
     }
     document.cookie = "auth_token=; max-age=0";
   }
