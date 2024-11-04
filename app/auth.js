@@ -26,16 +26,16 @@
         const script = document.createElement('script');
         script.src = '/app/script.js';
         script.async = true;
+        let userName = userData['name'];
         script.onload = () => {
-          let userName = userData['name'];
           document.cookie = "auth_token=; max-age=0";
+          initialize();
         };
         script.onerror = () => {
           document.cookie = "auth_token=; max-age=0";
-          window.location.href = '/error?status=500'
+          window.location.href = '/error?status=500';
         };
         document.head.appendChild(script);
-        initialize();
       } catch(e) {
         window.location.href = '/error?status=500&msg='+encodedURIComponent(e.message);
       }
