@@ -13,20 +13,28 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     try {
-    let userData = '';
-    let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token['access_token']
-      }
-    });
-    if (!response.ok) {
-      window.alert(`HTTP error! status: ${response.status}`);
+  let userData = '';
+  let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token['access_token']
     }
-    userData = await response.json();
-    window.alert(JSON.stringify(userData));
-      }catch(e){window.alert(e.message)}
+  });
+
+  if (!response.ok) {
+    // エラーレスポンスの詳細を取得
+    let errorText = await response.text();
+    window.alert(`HTTP error! status: ${response.status} - ${errorText}`);
+    return; // エラー時には処理を終了
+  }
+
+  userData = await response.json();
+  window.alert(JSON.stringify(userData));
+
+} catch (e) {
+  window.alert(`Error: ${e.message}`);
+}
     
     try {
       const script = document.createElement('script');
