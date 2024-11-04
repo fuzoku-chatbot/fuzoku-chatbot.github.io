@@ -1,6 +1,6 @@
 let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
-if (!authCode) { window.location.replace('/error?status=400'); }
+if (!authCode) { window.location.replace('/error?status=400');
 } else {
   const token = (async () => {
   try {
