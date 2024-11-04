@@ -1,4 +1,4 @@
-  // document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   let url = new URL(window.location.href);
   let authed = url.searchParams.get('authed');
 
@@ -10,7 +10,8 @@
   }
   let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
   if(!token) token = {access_token:'undefined'};
-  
+
+  async () => {
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     let userData = '';
     let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
@@ -50,4 +51,5 @@
     }
     document.cookie = "auth_token=; max-age=0";
   }
-// });
+  }
+});
