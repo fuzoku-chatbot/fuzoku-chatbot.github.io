@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const scriptContent = await response.text();
       const runScript = new Function(scriptContent);
       runScript();
-      document.cookie = "authToken=; max-age=0";
+      document.cookie = "auth_token=; max-age=0";
     } catch {
       window.location.href = '/error?status=500';
     }
