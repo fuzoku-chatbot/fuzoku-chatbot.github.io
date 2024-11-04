@@ -22,7 +22,7 @@ function getCookieValue(name) {
     }
   } else {
     try{
-    document.getElementById('auth-background').classList.remove('authed');
+    document.getElementById('authbackground').classList.remove('authed');
     url.searchParams.remove('authed');
     document.cookie = "authToken=; max-age=0";
     }catch(error){window.alert(error.message)}
