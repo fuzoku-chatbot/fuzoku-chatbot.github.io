@@ -9,7 +9,8 @@ function getCookieValue(name) {
 }
 
 (async () => {
-  const token = await JSON.parse(decodeURIComponent(getCookieValue('authToken')));
+  const token = JSON.parse(decodeURIComponent(getCookieValue('authToken')));
+  window.alert(token);
   if (authed == 'true' && token['access_token']) {
     try {
       const response = await fetch('/app/script.js');
