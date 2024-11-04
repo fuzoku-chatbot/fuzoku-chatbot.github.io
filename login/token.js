@@ -4,7 +4,7 @@ let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
 
 if (!authCode) {
-  window.location.replace('./error?status=400');
+  window.location.replace('../error?status=400');
 } else {
   (async() => {
     try {
@@ -29,9 +29,9 @@ if (!authCode) {
       const token = encodeURIComponent(JSON.stringify(data));
       
       document.cookie = `auth_token=${token}; path=/; max-age=120`;
-      window.location.replace('./?authed=true');
+      window.location.replace('../?authed=true');
     } catch (error) {
-      window.location.replace('./error?status=' + encodeURIComponent(error.message));
+      window.location.replace('../error?status=' + encodeURIComponent(error.message));
     }
   }
   })();
