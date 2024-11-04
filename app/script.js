@@ -1,3 +1,5 @@
+async function main() {
+  
 let responseAudio = new Audio('/app/response.mp3');
 let requestAudio = new Audio('/app/request.mp3');
 let ip = '';
@@ -313,10 +315,13 @@ function sendLog(question, req) {
 }
 
 window.addEventListener('load', function() {
-  post('ようこそ！２E時間割ボットへ！');
+  post(userName+'さん、こんにちは！');
   post('「今日の時間割」や「明日の時間割」、「〇〇月〇〇日の時間割」など入力すると、その日の時間割を確認することができます (๑•̀ㅂ•́)و');
   responseAudio.play();
   fetch('https://ipinfo.io?callback')
     .then(res => res.json())
     .then(json => ip = json.ip)
 });
+
+}
+export default main;
