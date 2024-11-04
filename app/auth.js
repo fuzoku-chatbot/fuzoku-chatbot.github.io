@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       window.alert(`HTTP error! status: ${response.status}`);
     }
     userData = await response.json();
-    window.alert(JSON.stringify(userData));
+    try{window.alert(JSON.stringify(userData));}catch(e){window.alert(e.message)}
     
     try {
       const script = document.createElement('script');
