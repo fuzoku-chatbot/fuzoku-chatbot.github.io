@@ -1,6 +1,6 @@
+  document.addEventListener('DOMContentLoaded', async () => {
   let url = new URL(window.location.href);
   let authed = url.searchParams.get('authed');
-  window.alert('test');
 
   function getCookieValue(name) {
     const value = `; ${document.cookie}`;
@@ -10,8 +10,7 @@
   }
   let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
   if(!token) token = {access_token:'undefined'};
-
-  async () => {
+  
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     let userData = '';
     let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
@@ -22,29 +21,36 @@
       }
     });
     if (response.ok) {
-      userData = await response.json();
+      userData = await response.json()
       try {
-        document.cookie = "auth_token=; max-age=0";
-        import main from 'app/script.js';
-        async function run() {
-          await main();
-        }
-        run();
+        const script = document.createElement('script');
+        script.src = '/app/script.js';
+        script.async = true;
+        await new Promise((resolve, reject) => {
+          script.onload = () => {
+            document.cookie = "auth_token=" + encodeURIComponent(JSON.stringify(token)) + "; max-age=86400";
+            resolve();
+          };
+          script.onerror = () => {
+            document.cookie = "auth_token=; max-age=0";
+            window.location.href = '/error?status=500';
+            reject(new Error('Script load error'));
+          };
+          document.head.appendChild(script);
+        });
       } catch(e) {
-        document.cookie = "auth_token=; max-age=0";
-        window.location.href = 'error?status=500&msg='+encodedURIComponent(e.message);
+        window.location.href = '/error?status=500&msg='+encodedURIComponent(e.message);
       }
     } else {
-      document.cookie = "auth_token=; max-age=0";
-      window.location.href = 'error?status=403';
+      window.location.href = '/error?status=403';
     }
   } else {
     const authBackground = document.getElementById('authbackground');
     if (authBackground) {
       authBackground.classList.remove('authed');
     } else {
-      window.alert("Element with ID 'authbackground' not found.");
+      console.error("Element with ID 'authbackground' not found.");
     }
     document.cookie = "auth_token=; max-age=0";
   }
-  }
+});
