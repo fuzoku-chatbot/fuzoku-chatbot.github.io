@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
   if(!token) token = {access_token:'undefined'};
+  window.alert(token.access_token);
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     let userData = '';
@@ -28,9 +29,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.head.appendChild(script);
         document.cookie = "auth_token=; max-age=0";
       } catch(e) {
+        document.cookie = "auth_token=; max-age=0";
         window.location.href = '/error?status=500&msg='+encodedURIComponent(e.message);
       }
     } else {
+      document.cookie = "auth_token=; max-age=0";
       window.location.href = '/error?status=403';
     }
   } else {
