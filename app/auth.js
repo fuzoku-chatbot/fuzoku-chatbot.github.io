@@ -1,3 +1,4 @@
+let userData = {};
 document.addEventListener('DOMContentLoaded', async () => {
   let url = new URL(window.location.href);
   let authed = url.searchParams.get('authed');
@@ -12,7 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   if(!token) token = {access_token:'undefined'};
 
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
-    let userData = '';
     let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
       method: 'GET',
       headers: {
