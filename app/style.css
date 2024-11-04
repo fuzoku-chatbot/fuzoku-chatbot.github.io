@@ -205,7 +205,7 @@ body {
   z-index: 9999;
   top: 0;
   left: 0;
-  position: relative;
+  position: fixed;
   text-align: center;
   display: flex;
   align-items: center;
