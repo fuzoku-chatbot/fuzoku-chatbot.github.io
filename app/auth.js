@@ -29,6 +29,6 @@ function getCookieValue(name) {
     }
     url.searchParams.remove('authed');
     document.cookie = "authToken=; max-age=0";
-    }catch{window.alert('error')}
+    }catch(error){window.alert('error')+error}
   }
 })();
