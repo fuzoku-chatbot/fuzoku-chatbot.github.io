@@ -24,12 +24,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       userData = await response.json();
       try {
         document.cookie = "auth_token=; max-age=0";
-        /*import main from './app/script.js';
+        import main from './app/script.js';
         async function run() {
           await main();
         }
         run();
-        */
       } catch(e) {
         document.cookie = "auth_token=; max-age=0";
         window.location.href = './error?status=500&msg='+encodedURIComponent(e.message);
