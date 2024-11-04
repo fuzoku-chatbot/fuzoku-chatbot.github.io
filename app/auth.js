@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return null;
   }
   const token = JSON.parse(decodeURIComponent(getCookieValue('authToken')));
-  window.alert(token['access_token']);
+  try{window.alert(token['access_token']);}catch(e){window.alert(e)}
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     try {
