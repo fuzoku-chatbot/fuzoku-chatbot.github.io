@@ -2,7 +2,7 @@ let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
 
 if (!authCode) {
-  window.location.replace('/error?status=400');
+  window.location.replace('./error?status=400');
 } else {
   (async() => {
     try {
@@ -15,7 +15,7 @@ if (!authCode) {
           code: authCode,
           client_id: '917674445940-d7ppk6vri50v28en4q750luc7nhip44b.apps.googleusercontent.com',
           client_secret: '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',
-          redirect_uri: 'https://fuzoku-chatbot.vercel.app/login',
+          redirect_uri: 'https://shinshu-university.github.io/chatbot/login',
           grant_type: 'authorization_code'
         })
       });
@@ -27,9 +27,9 @@ if (!authCode) {
       const token = encodeURIComponent(JSON.stringify(data));
       
       document.cookie = `auth_token=${token}; path=/; max-age=120`;
-      window.location.replace('/?authed=true');
+      window.location.replace('./?authed=true');
     } catch (error) {
-      window.location.replace('/error?status=' + encodeURIComponent(error.message));
+      window.location.replace('./error?status=' + encodeURIComponent(error.message));
     }
   })();
 }
