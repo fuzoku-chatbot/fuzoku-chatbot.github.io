@@ -18,10 +18,10 @@ function getCookieValue(name) {
       runScript();
       document.cookie = "authToken=; max-age=0";
     } catch {
-window.alert('error');
       window.location.href = '/error?status=500';
     }
   } else {
+    window.alert('elsedesu');
     const authElement = document.getElementsByClassName('auth')[0];
     if (authElement) {
       authElement.classList.remove('authed');
