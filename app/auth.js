@@ -24,18 +24,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       userData = await response.json();
       try {
         document.cookie = "auth_token=; max-age=0";
-        import main from './app/script.js';
+        import main from 'script.js';
         async function run() {
           await main();
         }
         run();
       } catch(e) {
         document.cookie = "auth_token=; max-age=0";
-        window.location.href = './error?status=500&msg='+encodedURIComponent(e.message);
+        window.location.href = '../error?status=500&msg='+encodedURIComponent(e.message);
       }
     } else {
       document.cookie = "auth_token=; max-age=0";
-      window.location.href = './error?status=403';
+      window.location.href = '../error?status=403';
     }
   } else {
     const authBackground = document.getElementById('authbackground');
