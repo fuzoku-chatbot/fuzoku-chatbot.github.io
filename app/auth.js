@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   let url = new URL(window.location.href);
   let authed = url.searchParams.get('authed');
+  window.alert('test');
 
   function getCookieValue(name) {
     const value = `; ${document.cookie}`;
