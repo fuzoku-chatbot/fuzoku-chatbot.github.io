@@ -17,7 +17,7 @@ function getCookieValue(name) {
       const runScript = new Function(scriptContent);
       runScript();
       document.cookie = "authToken=; max-age=0";
-    } catch () {
+    } catch {
       window.location.href = '/error?status=500';
     }
   } else {
