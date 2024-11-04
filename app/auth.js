@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/error?status=500'
       };
       document.head.appendChild(script);
-    } catch {
+    } catch(e) {
       document.cookie = "auth_token=; max-age=0";
-      window.location.href = '/error?status=500';
+      window.location.href = '/error?status=500&msg='+encodeURIComponent(e.message);
     }
   } else {
     const authBackground = document.getElementById('authbackground');
