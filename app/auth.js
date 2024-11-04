@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
     if (response.ok) {
-      userData = await response.json()
+      userData = await response.json();
       try {
         const script = document.createElement('script');
         script.src = '/app/script.js';
