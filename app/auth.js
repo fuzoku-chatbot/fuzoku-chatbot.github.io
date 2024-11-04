@@ -8,12 +8,24 @@ function getCookieValue(name) {
   return null;
 }
 
-const token = JSON.parse(decodeURIComponent(getCookieValue('authToken')));
-if ((authed == 'true') && token['access_token']) {
-  fetch('/app/script.js').then(r=>r.text()).then(t=>eval(t)).then(()=>{ ... }
-  document.cookie = "authToken=; max-age=0";
-} else {
-  document.getElementsByClassName('auth')[0].classList.remove('authed');
-  url.searchParams.remove('authed');
-  document.cookie = "authToken=; max-age=0";
-}
+(async () => {
+  const token = JSON.parse(decodeURIComponent(getCookieValue('authToken')));
+  if (authed === 'true' && token['access_token']) {
+    try {
+      const response = await fetch('/app/script.js');
+      const scriptContent = await response.text();
+      const runScript = new Function(scriptContent);
+      runScript();
+      document.cookie = "authToken=; max-age=0";
+    } catch () {
+      window.location.href = '/error?status=500';
+    }
+  } else {
+    const authElement = document.getElementsByClassName('auth')[0];
+    if (authElement) {
+      authElement.classList.remove('authed');
+    }
+    url.searchParams.remove('authed');
+    document.cookie = "authToken=; max-age=0";
+  }
+})();
