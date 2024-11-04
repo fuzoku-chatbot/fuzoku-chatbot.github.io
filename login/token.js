@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  window.alert('aieui');
 let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
 
