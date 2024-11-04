@@ -26,18 +26,16 @@
         const script = document.createElement('script');
         script.src = '/app/script.js';
         script.async = true;
-        await new Promise((resolve, reject) => {
-          script.onload = () => {
-            document.cookie = "auth_token=" + encodeURIComponent(JSON.stringify(token)) + "; max-age=86400";
-            resolve();
-          };
-          script.onerror = () => {
-            document.cookie = "auth_token=; max-age=0";
-            window.location.href = '/error?status=500';
-            reject(new Error('Script load error'));
-          };
-          document.head.appendChild(script);
-        });
+        script.onload = () => {
+          let userName = userData['name'];
+          document.cookie = "auth_token=; max-age=0";
+        };
+        script.onerror = () => {
+          document.cookie = "auth_token=; max-age=0";
+          window.location.href = '/error?status=500'
+        };
+        document.head.appendChild(script);
+        initialize();
       } catch(e) {
         window.location.href = '/error?status=500&msg='+encodedURIComponent(e.message);
       }
