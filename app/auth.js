@@ -14,15 +14,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     try {
       let userData = '';
-      await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
+      let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': token['access_token']
         }
-      })
-      .then(response => response.json()).then(data => userData = data)
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      let data = await response.json();
       window.alert(JSON.stringify(userData));
+      
       const script = document.createElement('script');
 　　　　script.src = '/app/script.js';
 　　　　script.async = true;
