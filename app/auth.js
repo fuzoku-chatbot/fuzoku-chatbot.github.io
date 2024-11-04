@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const script = document.createElement('script');
         script.src = '/app/script.js';
+        script.defer = true;
         let userName = userData['name'];
         script.onload = () => {
           document.cookie = "auth_token=; max-age=0";
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         document.head.appendChild(script);
       } catch(e) {
-        window.location.href = '/error?status=500&msg='+encodedURIComponent(e.message);
+        window.location.href = '/error?status=500&msg='+encodeURIComponent(e.message);
       }
     } else {
       window.location.href = '/error?status=403';
