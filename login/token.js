@@ -15,7 +15,7 @@ if (!authCode) {
           code: authCode,
           client_id: '917674445940-d7ppk6vri50v28en4q750luc7nhip44b.apps.googleusercontent.com',
           client_secret: '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',
-          redirect_uri: 'https://fuzoku-chatbot.vercel.app/login',
+          redirect_uri: 'https://fuzoku-chatbot.netlify.app/login',
           grant_type: 'authorization_code'
         })
       });
