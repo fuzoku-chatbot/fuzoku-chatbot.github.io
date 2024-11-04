@@ -21,8 +21,8 @@ function getCookieValue(name) {
       window.location.href = '/error?status=500';
     }
   } else {
-    window.alert('elsedesu');
     const authElement = document.getElementsByClassName('auth')[0];
+    window.alert(authElement.length);
     if (authElement) {
       authElement.classList.remove('authed');
     }
