@@ -1,7 +1,7 @@
 let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
-window.alert(authCode);
-/*
+// window.alert(authCode);
+
 if (!authCode) { window.location.replace('/error?status=400');
 } else {
   const token = (async () => {
@@ -20,7 +20,7 @@ if (!authCode) { window.location.replace('/error?status=400');
       })
     });
     if (!response.ok) {
-      throw new Error(response.status);
+      throw new Error(response.json());
     }
     const data = await response.json();
     return String(data);
@@ -29,4 +29,3 @@ if (!authCode) { window.location.replace('/error?status=400');
   }
 })();
 }
-*/
