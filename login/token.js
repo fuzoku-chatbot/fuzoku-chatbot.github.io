@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', async () => {
 let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
 
@@ -31,5 +32,6 @@ if (!authCode) {
     } catch (error) {
       window.location.replace('./error?status=' + encodeURIComponent(error.message));
     }
+  }
   })();
 }
