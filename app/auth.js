@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
   if(!token) token = {access_token:'undefined'};
-  window.alert(token.access_token);
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     let userData = '';
@@ -24,10 +23,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (response.ok) {
       userData = await response.json();
       try {
-        const script = document.createElement('script');
-        script.src = '/app/script.js';
-        document.head.appendChild(script);
         document.cookie = "auth_token=; max-age=0";
+        import main from '/app/script.js';
+        async function run() {
+          await main();
+        }
+        run();
       } catch(e) {
         document.cookie = "auth_token=; max-age=0";
         window.location.href = '/error?status=500&msg='+encodedURIComponent(e.message);
