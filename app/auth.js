@@ -1,5 +1,5 @@
 let url = new URL(window.location.href);
-let authCode = url.searchParams.get('authed');
+let authed = url.searchParams.get('authed');
 
 function getCookieValue(name) {
   const value = `; ${document.cookie}`;
