@@ -31,11 +31,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         run();
       } catch(e) {
         document.cookie = "auth_token=; max-age=0";
-        window.location.href = '../error?status=500&msg='+encodedURIComponent(e.message);
+        window.location.href = 'error?status=500&msg='+encodedURIComponent(e.message);
       }
     } else {
       document.cookie = "auth_token=; max-age=0";
-      window.location.href = '../error?status=403';
+      window.location.href = 'error?status=403';
     }
   } else {
     const authBackground = document.getElementById('authbackground');
