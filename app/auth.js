@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         script.onload = () => {
           document.cookie = "auth_token=; max-age=0";
           setTimeout( () => {
-            functioninitialize()
+            initialize()
           }, 1000);
         };
         script.onerror = () => {
