@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      window.alert(`HTTP error! status: ${response.status}`);
     }
     userData = await response.json();
     window.alert(JSON.stringify(userData));
