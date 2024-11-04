@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const script = document.createElement('script');
         script.src = '/app/script.js';
-        script.async = true;
         await new Promise((resolve, reject) => {
           script.onload = () => {
             document.cookie = "auth_token=" + encodeURIComponent(JSON.stringify(token)) + "; max-age=86400";
