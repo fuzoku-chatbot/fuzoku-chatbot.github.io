@@ -22,13 +22,13 @@ function getCookieValue(name) {
     }
   } else {
     try{
-    const authElement = document.getElementsByClassName('auth')[0];
+    const authElement = document.getElementById('auth-background');
     window.alert(authElement.length);
     if (authElement) {
       authElement.classList.remove('authed');
     }
     url.searchParams.remove('authed');
     document.cookie = "authToken=; max-age=0";
-    }catch(error){window.alert('error')+error.message}
+    }catch(error){window.alert(error.message)}
   }
 })();
