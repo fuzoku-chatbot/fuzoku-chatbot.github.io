@@ -21,6 +21,7 @@ function getCookieValue(name) {
       window.location.href = '/error?status=500';
     }
   } else {
+    try{
     const authElement = document.getElementsByClassName('auth')[0];
     window.alert(authElement.length);
     if (authElement) {
@@ -28,5 +29,6 @@ function getCookieValue(name) {
     }
     url.searchParams.remove('authed');
     document.cookie = "authToken=; max-age=0";
+    }catch{window.alert('error')}
   }
 })();
