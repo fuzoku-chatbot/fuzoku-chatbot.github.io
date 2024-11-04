@@ -13,7 +13,7 @@ if ((authed == 'true') && token['access_token']) {
   fetch('/app/script.js').then(r=>r.text()).then(t=>eval(t)).then(()=>{ ... }
   document.cookie = "authToken=; max-age=0";
 } else {
-  document.getElementsByClassName('auth').classList.remove('authed');
+  document.getElementsByClassName('auth')[0].classList.remove('authed');
   url.searchParams.remove('authed');
   document.cookie = "authToken=; max-age=0";
 }
