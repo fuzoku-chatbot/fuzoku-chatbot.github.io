@@ -313,7 +313,7 @@ function sendLog(question, req) {
 }
 
 function initialize() {
-  post(window.userData['name']+'さん、こんにちは');
+  post('テスト'+'さん、こんにちは');
   post('「今日の時間割」や「明日の時間割」、「〇〇月〇〇日の時間割」など入力すると、その日の時間割を確認することができます (๑•̀ㅂ•́)و');
   responseAudio.play();
   fetch('https://ipinfo.io?callback')
