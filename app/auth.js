@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': token['access_token']
+      'Authorization': `Bearer ${token['access_token']}`  // Bearerトークンを追加
     }
   });
 
@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   window.alert(JSON.stringify(userData));
 
 } catch (e) {
+  console.error('Error details:', e);
   window.alert(`Error: ${e.message}`);
 }
     
