@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if(!token) token = {access_token:'undefined'};
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
+    try {
     let userData = '';
     let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
       method: 'POST',
@@ -24,7 +25,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       window.alert(`HTTP error! status: ${response.status}`);
     }
     userData = await response.json();
-    try{window.alert(JSON.stringify(userData));}catch(e){window.alert(e.message)}
+    window.alert(JSON.stringify(userData));
+      }catch(e){window.alert(e.message)}
     
     try {
       const script = document.createElement('script');
