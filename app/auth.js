@@ -21,17 +21,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       window.location.href = '/error?status=500';
     }
   } else {
-    try {
-      const authBackground = document.getElementById('authbackground');
-      if (authBackground) {
-        authBackground.classList.remove('authed');
-      } else {
-        console.error("Element with ID 'authbackground' not found.");
-      }
-      url.searchParams.remove('authed');
-      document.cookie = "authToken=; max-age=0";
-    } catch (error) {
-      window.alert(error.message);
+    const authBackground = document.getElementById('authbackground');
+    if (authBackground) {
+      authBackground.classList.remove('authed');
+    } else {
+      console.error("Element with ID 'authbackground' not found.");
     }
+    document.cookie = "authToken=; max-age=0";
   }
 });
