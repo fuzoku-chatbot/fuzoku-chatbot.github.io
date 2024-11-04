@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
   let userData = '';
   let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token['access_token']}`  // Bearerトークンを追加
