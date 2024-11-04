@@ -12,46 +12,37 @@ document.addEventListener('DOMContentLoaded', async () => {
   if(!token) token = {access_token:'undefined'};
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
-    try {
-  let userData = '';
-  let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token['access_token']}`  // Bearerトークンを追加
-    }
-  });
-
-  if (!response.ok) {
-    // エラーレスポンスの詳細を取得
-    let errorText = await response.text();
-    window.alert(`HTTP error! status: ${response.status} - ${errorText}`);
-    return; // エラー時には処理を終了
-  }
-
-  userData = await response.json();
-  window.alert(JSON.stringify(userData));
-
-} catch (e) {
-  console.error('Error details:', e);
-  window.alert(`Error: ${e.message}`);
-}
-    
-    try {
-      const script = document.createElement('script');
-　　　　script.src = '/app/script.js';
-　　　　script.async = true;
-　　　　script.onload = () => {
-        document.cookie = "auth_token="+encodeURIComponent(JSON.stringify(token))+"; max-age=86400";
-　　　　};
-      script.onerror = () => {
-        document.cookie = "auth_token=; max-age=0";
-        window.location.href = '/error?status=500'
-      };
-      document.head.appendChild(script);
-    } catch(e) {
-      document.cookie = "auth_token=; max-age=0";
-      window.location.href = '/error?status=500&msg='+encodeURIComponent(e.message);
+    let userData = '';
+    let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token['access_token']}`
+      }
+    });
+    if (response.ok) {
+      userData = await response.json()
+      try {
+        const script = document.createElement('script');
+        script.src = '/app/script.js';
+        script.async = true;
+        await new Promise((resolve, reject) => {
+          script.onload = () => {
+            document.cookie = "auth_token=" + encodeURIComponent(JSON.stringify(token)) + "; max-age=86400";
+            resolve();
+          };
+          script.onerror = () => {
+            document.cookie = "auth_token=; max-age=0";
+            window.location.href = '/error?status=500';
+            reject(new Error('Script load error'));
+          };
+          document.head.appendChild(script);
+        });
+      } catch(e) {
+        window.location.href = '/error?status=500&msg='+encodedURIComponent(e.message);
+      }
+    } else {
+      window.location.href = '/error?status=403';
     }
   } else {
     const authBackground = document.getElementById('authbackground');
