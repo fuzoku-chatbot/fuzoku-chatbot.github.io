@@ -1,31 +1,34 @@
 let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
-// window.alert(authCode);
 
-if (!authCode) { window.location.replace('/error?status=400');
+if (!authCode) {
+  window.location.replace('/error?status=400');
 } else {
   const token = (async () => {
-  try {
-    const response = await fetch('https://accounts.google.com/o/oauth2/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        code: authCode,
-        client_id: '917674445940-d7ppk6vri50v28en4q750luc7nhip44b.apps.googleusercontent.com',
-        client_secret: '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',
-        redirect_uri: 'https://fuzoku-chatbot.vercel.app/chat',
-        grant_type: 'authorization_code'
-      })
-    });
-    if (!response.ok) {
-      throw new Error(response.json());
+    try {
+      const response = await fetch('https://accounts.google.com/o/oauth2/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          code: authCode,
+          client_id: '917674445940-d7ppk6vri50v28en4q750luc7nhip44b.apps.googleusercontent.com',
+          client_secret: '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',
+          redirect_uri: 'https://fuzoku-chatbot.vercel.app/chat',
+          grant_type: 'authorization_code'
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json(); // エラーメッセージを取得
+        throw new Error(errorData.error || 'Unknown error');
+      }
+
+      const data = await response.json();
+      return String(data);
+    } catch (error) {
+      window.location.replace('/error?status=' + encodeURIComponent(error.message));
     }
-    const data = await response.json();
-    return String(data);
-  } catch (error) {
-    window.location.replace('/error?status='+error.message);
-  }
-})();
+  })();
 }
