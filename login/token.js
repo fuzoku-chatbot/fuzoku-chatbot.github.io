@@ -26,7 +26,7 @@ if (!authCode) {
       const data = await response.json();
       const token = encodeURIComponent(JSON.stringify(data));
       
-      document.cookie = `auth_token=${token}; max-age=120`;
+      await document.cookie = `auth_token=${token}; path=/; max-age=120`;
       window.location.replace('/?authed=true');
     } catch (error) {
       window.location.replace('/error?status=' + encodeURIComponent(error.message));
