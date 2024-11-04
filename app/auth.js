@@ -9,17 +9,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     return null;
   }
   let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
-  window.alert(document.cookie);
   if(!token) token = {access_token:'undefined'};
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     try {
-      const response = await fetch('/app/script.js');
-      const scriptContent = await response.text();
-      const runScript = new Function(scriptContent);
-      runScript();
-      document.cookie = "auth_token=; max-age=0";
+      const script = document.createElement('script');
+　　　　script.src = '/app/script.js';
+　　　　script.async = true;
+　　　　script.onload = () => {
+        document.cookie = "auth_token="+encodeURIComponent(JSON.stringify(token))+"; max-age=86400";
+　　　　};
+      script.onerror = () => {
+        document.cookie = "auth_token=; max-age=0";
+        window.location.href = '/error?status=500'
+      };
+      document.head.appendChild(script);
     } catch {
+      document.cookie = "auth_token=; max-age=0";
       window.location.href = '/error?status=500';
     }
   } else {
