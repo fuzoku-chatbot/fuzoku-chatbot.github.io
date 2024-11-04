@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
 let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
 
