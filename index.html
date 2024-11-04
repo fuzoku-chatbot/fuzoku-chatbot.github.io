@@ -7,6 +7,6 @@
     return null;
 }
 
-const token = getCookieValue('authToken');
+const token = decodedURIComponent(getCookieValue('authToken'));
 alert(token);
 </script>
