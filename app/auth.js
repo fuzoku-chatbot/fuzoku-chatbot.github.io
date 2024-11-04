@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
   }
-  let token = JSON.parse(decodeURIComponent(getCookieValue('authToken')));
-  window.alert(getCookieValue('authToken'));
+  let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
+  window.alert(document.cookie);
   if(!token) token = {access_token:'undefined'};
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
@@ -29,6 +29,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       console.error("Element with ID 'authbackground' not found.");
     }
-    document.cookie = "authToken=; max-age=0";
+    document.cookie = "auth_token=; max-age=0";
   }
 });
