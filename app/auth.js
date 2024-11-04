@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       userData = await response.json();
       try {
         document.cookie = "auth_token=; max-age=0";
-        import main from 'script.js';
+        import main from 'app/script.js';
         async function run() {
           await main();
         }
