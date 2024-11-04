@@ -1,4 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
   let url = new URL(window.location.href);
   let authed = url.searchParams.get('authed');
   window.alert('test');
@@ -49,4 +48,3 @@ document.addEventListener('DOMContentLoaded', () => {
     document.cookie = "auth_token=; max-age=0";
   }
   }
-});
