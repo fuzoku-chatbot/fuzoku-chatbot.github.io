@@ -1,7 +1,7 @@
 async function main() {
   
-let responseAudio = new Audio('/app/response.mp3');
-let requestAudio = new Audio('/app/request.mp3');
+let responseAudio = new Audio('./app/response.mp3');
+let requestAudio = new Audio('./app/request.mp3');
 let ip = '';
 
 // post関数 - ボットからのメッセージを表示
