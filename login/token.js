@@ -1,34 +1,38 @@
 let url = new URL(window.location.href);
 let authCode = url.searchParams.get('code');
-
+​
 if (!authCode) {
   window.location.replace('/error?status=400');
 } else {
-  const token = (async () => {
+  const token = (async() => {
     try {
-      const response = await fetch('https://accounts.google.com/o/oauth2/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          code: authCode,
-          client_id: '917674445940-d7ppk6vri50v28en4q750luc7nhip44b.apps.googleusercontent.com',
-          client_secret: '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',
-          redirect_uri: 'https://fuzoku-chatbot.vercel.app/login',
-          grant_type: 'authorization_code'
-        })
-      });
-
+      const response = await fetch(
+        'https://accounts.google.com/o/oauth2/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            code: authCode,
+            client_id: '917674445940-d7ppk6vri50v28en4q750luc7nhip44b.apps.googleusercontent.com',
+            client_secret: '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',
+            redirect_uri: 'https://fuzoku-chatbot.vercel.app/login',
+            grant_type: 'authorization_code'
+          })
+        });
+​
       if (!response.ok) {
-        const errorData = await response.json(); // エラーメッセージを取得
-        throw new Error(errorData.error || 'Unknown error');
+        throw new Error(response.status);
+        // const errorData = await response.json();
+        // throw new Error(errorData.error || 'Unknown error');
       }
-
+​
       const data = await response.json();
-      return String(data);
+      return encodeURIComponent(JSON.stringify(data));
     } catch (error) {
       window.location.replace('/error?status=' + encodeURIComponent(error.message));
     }
   })();
+  document.cookie = `authToken=${token}; max-age=120; secure`;
+  window.location.replace('/?authed=true');
 }
