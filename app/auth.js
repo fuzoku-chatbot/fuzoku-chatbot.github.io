@@ -1,4 +1,4 @@
-  document.addEventListener('DOMContentLoaded', async () => {
+  // document.addEventListener('DOMContentLoaded', async () => {
   let url = new URL(window.location.href);
   let authed = url.searchParams.get('authed');
 
@@ -25,7 +25,6 @@
       try {
         const script = document.createElement('script');
         script.src = '/app/script.js';
-        script.async = true;
         let userName = userData['name'];
         script.onload = () => {
           document.cookie = "auth_token=; max-age=0";
@@ -51,4 +50,4 @@
     }
     document.cookie = "auth_token=; max-age=0";
   }
-});
+// });
