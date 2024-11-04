@@ -8,9 +8,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
   }
-  let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
+  let token = await JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
   if(!token) token = {access_token:'undefined'};
-  window.alert(token.access_token);
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     let userData = '';
