@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
   if(!token) token = {access_token:'undefined'};
 
-  document.getElementById('scriptload-background').classList.remove('loaded');
+  document.getElementById('scriptloader').classList.remove('loaded');
+  
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
     let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
       method: 'GET',
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         script.onload = () => {
           document.cookie = "auth_token=; max-age=0";
           initialize(encodeURIComponent(JSON.stringify(userData)));
-          document.getElementById('scriptload-background').classList.remove('loaded');
+          document.getElementById('scriptloader').classList.remove('loaded');
         };
         script.onerror = () => {
           document.cookie = "auth_token=; max-age=0";
