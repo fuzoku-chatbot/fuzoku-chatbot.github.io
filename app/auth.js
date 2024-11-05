@@ -55,14 +55,17 @@ document.addEventListener('DOMContentLoaded', async () => {
           };
           document.head.appendChild(script);
         } else {
+          document.cookie = "auth_token=; max-age=0";
           document.getElementById('authbackground').classList.remove('authed');
           document.getElementById('scriptloader').classList.add('loaded');
           window.alert(`Error 403 : ${userData['email']} はアクセスが許可されていません`);          
         }
       } catch(e) {
+        document.cookie = "auth_token=; max-age=0";
         window.location.href = '/error?status=500&msg='+encodeURIComponent(e.message);
       }
     } else {
+      document.cookie = "auth_token=; max-age=0";
       window.location.href = '/error?status=403';
     }
   } else {
