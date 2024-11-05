@@ -248,8 +248,7 @@ function parseUserQuestion(userQuestion) {
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
     searchWord = formatDate(tomorrow.getFullYear(), tomorrow.getMonth(),
-      tomorrow
-      .getDate());
+      tomorrow.getDate());
   } else if (userQuestion.match(/明明明後日|明々々後日|やのあさって|みょうみょうみょうごにち/)) {
     const threedayAfterTomorrow = new Date(today);
     threedayAfterTomorrow.setDate(today.getDate() + 4);
@@ -265,6 +264,21 @@ function parseUserQuestion(userQuestion) {
     dayAfterTomorrow.setDate(today.getDate() + 2);
     searchWord = formatDate(dayAfterTomorrow.getFullYear(), dayAfterTomorrow.getMonth(),
       dayAfterTomorrow.getDate());
+  } else if (userQuestion.match(/昨日|きのう|昨日/)) {
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    searchWord = formatDate(yesterday.getFullYear(), yesterday.getMonth(),
+      yesterday.getDate());
+  } else if (userQuestion.match(/一昨昨日|一昨々日|さきおととい|いっさくさくじつ/)) {
+    const threedayBeforeYesterday = new Date(today);
+    threedayBeforeYesterday.setDate(today.getDate() - 3);
+    searchWord = formatDate(threedayBeforeYesterday.getFullYear(), threedayBeforeYesterday.getMonth(),
+      threedayBeforeYesterday.getDate());
+  } else if (userQuestion.match(/一昨日|おととい|一昨日/)) {
+    const dayBeforeYesterday = new Date(today);
+    dayBeforeYesterday.setDate(today.getDate() - 2);
+    searchWord = formatDate(dayBeforeYesterday.getFullYear(), dayBeforeYesterday.getMonth(),
+      dayBeforeYesterday.getDate());
   }
 
   // 時間帯の指定
