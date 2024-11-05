@@ -21,16 +21,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
     if (response.ok) {
-      userData = await response.json()
+      userData = await response.json();
       try {
         const script = document.createElement('script');
         script.src = '/app/script.js';
         script.defer = true;
         script.onload = () => {
           document.cookie = "auth_token=; max-age=0";
-          setTimeout( () => {
-            initialize()
-          }, 1000);
+            initialize(JSON.parse(userData));
         };
         script.onerror = () => {
           document.cookie = "auth_token=; max-age=0";
