@@ -1,6 +1,5 @@
 let responseAudio = new Audio('/app/response.mp3');
 let requestAudio = new Audio('/app/request.mp3');
-let ip = '';
 let credential = {};
 
 // post関数 - ボットからのメッセージを表示
