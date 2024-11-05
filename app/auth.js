@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         script.defer = true;
         script.onload = () => {
           document.cookie = "auth_token=; max-age=0";
-          initialize(JSON.stringify(userData));
+          initialize(encodeURIComponent(JSON.stringify(userData)));
         };
         script.onerror = () => {
           document.cookie = "auth_token=; max-age=0";
