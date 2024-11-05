@@ -40,19 +40,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         const authStatus = await authorize();
         fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec'
           +'?ip='+ip+'&question='+encodeURIComponent('Server: login')+'&req='+encodeURIComponent('Authorization: '+authStatus)+'&userdata='+encodeURIComponent(JSON.stringify(userData)));
-        const script = document.createElement('script');
-        script.src = '/app/script.js';
-        script.defer = true;
-        script.onload = () => {
-          document.cookie = "auth_token=; max-age=0";
-          document.getElementById('scriptloader').classList.add('loaded');
-          initialize(encodeURIComponent(JSON.stringify(userData)));
-        };
-        script.onerror = () => {
-          document.cookie = "auth_token=; max-age=0";
-          window.location.href = '/error?status=500';
-        };
-        document.head.appendChild(script);
+        if (authStatus === true) {
+          const script = document.createElement('script');
+          script.src = '/app/script.js';
+          script.defer = true;
+          script.onload = () => {
+            document.cookie = "auth_token=; max-age=0";
+            document.getElementById('scriptloader').classList.add('loaded');
+            initialize(encodeURIComponent(JSON.stringify(userData)));
+          };
+          script.onerror = () => {
+            document.cookie = "auth_token=; max-age=0";
+            window.location.href = '/error?status=500';
+          };
+          document.head.appendChild(script);
+        } else {
+          document.getElementById('authbackground').classList.remove('authed');
+          window.alert(`Error 403 : ${userData['email']} はアクセスが許可されていません`);          
+        }
       } catch(e) {
         window.location.href = '/error?status=500&msg='+encodeURIComponent(e.message);
       }
