@@ -3,6 +3,15 @@ let ip = '';
 fetch('https://ipinfo.io?callback')
     .then(res => res.json())
     .then(json => ip = json.ip)
+
+async function authorize() {
+  let authorizedList = [];
+  await fetch('/authorized.json')
+    .then(res => res.json())
+    .then(json => authorizedList = json)
+  return suthorizedList.includes(userData['email']);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   let url = new URL(window.location.href);
   let authed = url.searchParams.get('authed');
@@ -26,10 +35,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
     if (response.ok) {
-      userData = await response.json();
-      fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec'
-        +'?ip='+ip+'&question='+encodeURIComponent('Server: login')+'&req='+encodeURIComponent('Authorization: '+loginStatus)+'&userdata='+encodeURIComponent(JSON.stringify(userData)))
       try {
+        userData = await response.json();
+        const authStatus = await authorize();
+        fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec'
+          +'?ip='+ip+'&question='+encodeURIComponent('Server: login')+'&req='+encodeURIComponent('Authorization: '+authStatus)+'&userdata='+encodeURIComponent(JSON.stringify(userData)));
         const script = document.createElement('script');
         script.src = '/app/script.js';
         script.defer = true;
