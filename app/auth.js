@@ -1,4 +1,8 @@
 let userData = {};
+let ip = '';
+fetch('https://ipinfo.io?callback')
+    .then(res => res.json())
+    .then(json => ip = json.ip)
 document.addEventListener('DOMContentLoaded', async () => {
   let url = new URL(window.location.href);
   let authed = url.searchParams.get('authed');
