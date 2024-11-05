@@ -9,7 +9,7 @@ async function authorize() {
   await fetch('/authorized.json')
     .then(res => res.json())
     .then(json => authorizedList = json)
-  return suthorizedList.includes(userData['email']);
+  return authorizedList.includes(userData['email']);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
