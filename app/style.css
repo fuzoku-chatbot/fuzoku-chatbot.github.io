@@ -223,3 +223,50 @@ body {
   opacity: 0;
   visibility: hidden;
 }
+
+body {
+  background-color: red;
+  margin: 0;
+}
+
+.scriptloader {
+  width: 60px;
+  aspect-ratio: 2;
+  --_a: no-repeat radial-gradient(circle closest-side, #4a90e2 90%, rgba(0,0,0,0));
+  background: 
+    var(--_a) 0% 50%,
+    var(--_a) 50% 50%,
+    var(--_a) 100% 50%;
+  background-size: calc(100% / 3) 50%;
+  animation: l3 1s infinite linear;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes l3 {
+  20% { background-position: 0% 0%, 50% 50%, 100% 50%; }
+  40% { background-position: 0% 100%, 50% 0%, 100% 50%; }
+  60% { background-position: 0% 50%, 50% 100%, 100% 0%; }
+  80% { background-position: 0% 50%, 50% 50%, 100% 100%; }
+}
+
+.scriptload-background {
+  width: 100vw;
+  height: 100vh;
+  transition: all 1s;
+  background-color: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.scriptload-background p {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
