@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         script.defer = true;
         script.onload = () => {
           document.cookie = "auth_token=; max-age=0";
+          document.getElementById('scriptloader').classList.add('loaded');
           initialize(encodeURIComponent(JSON.stringify(userData)));
-          document.getElementById('scriptloader').classList.remove('loaded');
         };
         script.onerror = () => {
           document.cookie = "auth_token=; max-age=0";
