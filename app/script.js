@@ -242,7 +242,7 @@ function parseUserQuestion(userQuestion) {
     }
 
     searchWord = formatDate(year, month, day);
-  } else if (userQuestion.match(/今日/)) {
+  } else if (userQuestion.match(/今日|本日|きょう|ほんじつ/)) {
     searchWord = formatDate(currentYear, currentMonth, today.getDate());
   } else if (userQuestion.match(/明日|あした|あす/)) {
     const tomorrow = new Date(today);
@@ -250,6 +250,16 @@ function parseUserQuestion(userQuestion) {
     searchWord = formatDate(tomorrow.getFullYear(), tomorrow.getMonth(),
       tomorrow
       .getDate());
+  } else if (userQuestion.match(/明明明後日|明々々後日|やのあさって|みょうみょうみょうごにち/)) {
+    const threedayAfterTomorrow = new Date(today);
+    threedayAfterTomorrow.setDate(today.getDate() + 4);
+    searchWord = formatDate(threedayAfterTomorrow.getFullYear(), threedayAfterTomorrow.getMonth(),
+      threedayAfterTomorrow.getDate());
+  } else if (userQuestion.match(/明明後日|明々後日|しあさって|みょうみょうごにち/)) {
+    const twodayAfterTomorrow = new Date(today);
+    twodayAfterTomorrow.setDate(today.getDate() + 3);
+    searchWord = formatDate(twodayAfterTomorrow.getFullYear(), twodayAfterTomorrow.getMonth(),
+      twodayAfterTomorrow.getDate());
   } else if (userQuestion.match(/明後日|あさって|みょうごにち/)) {
     const dayAfterTomorrow = new Date(today);
     dayAfterTomorrow.setDate(today.getDate() + 2);
