@@ -1,6 +1,7 @@
 let responseAudio = new Audio('/app/response.mp3');
 let requestAudio = new Audio('/app/request.mp3');
 let ip = '';
+let credential = {};
 
 // post関数 - ボットからのメッセージを表示
 function post(content) {
@@ -312,8 +313,9 @@ function sendLog(question, req) {
         +'?ip='+ip+'&question='+question+'&req='+req)
 }
 
-function initialize() {
-  post('テスト'+'さん、こんにちは');
+function initialize(userdata) {
+  credential = userdata;
+  post(credential['name']+'さん、こんにちは');
   post('「今日の時間割」や「明日の時間割」、「〇〇月〇〇日の時間割」など入力すると、その日の時間割を確認することができます (๑•̀ㅂ•́)و');
   responseAudio.play();
   fetch('https://ipinfo.io?callback')
