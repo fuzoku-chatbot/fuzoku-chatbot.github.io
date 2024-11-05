@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           document.head.appendChild(script);
         } else {
           document.getElementById('authbackground').classList.remove('authed');
+          document.getElementById('scriptloader').classList.add('loaded');
           window.alert(`Error 403 : ${userData['email']} はアクセスが許可されていません`);          
         }
       } catch(e) {
