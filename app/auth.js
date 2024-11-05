@@ -11,10 +11,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   let token = JSON.parse(decodeURIComponent(getCookieValue('auth_token')));
   if(!token) token = {access_token:'undefined'};
-
-  document.getElementById('scriptloader').classList.remove('loaded');
   
   if ((authed == 'true') && (token['access_token'] != 'undefined')) {
+    document.getElementById('scriptloader').classList.remove('loaded');
     let response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
       method: 'GET',
       headers: {
