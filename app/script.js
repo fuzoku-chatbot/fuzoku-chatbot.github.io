@@ -318,7 +318,4 @@ function initialize(userdata) {
   post(credential['name']+'さん、こんにちは');
   post('「今日の時間割」や「明日の時間割」、「〇〇月〇〇日の時間割」など入力すると、その日の時間割を確認することができます (๑•̀ㅂ•́)و');
   responseAudio.play();
-  fetch('https://ipinfo.io?callback')
-    .then(res => res.json())
-    .then(json => ip = json.ip)
 }
