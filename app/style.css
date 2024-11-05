@@ -214,9 +214,10 @@ body {
 }
 
 .auth img {
-  width: 30%;
+  width: 20%;
   height: auto;
   background-color: transparent;
+  margin-top: 2%;
 }
 
 .authed {
