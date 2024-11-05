@@ -224,11 +224,6 @@ body {
   visibility: hidden;
 }
 
-body {
-  background-color: red;
-  margin: 0;
-}
-
 .scriptloader {
   width: 60px;
   aspect-ratio: 2;
