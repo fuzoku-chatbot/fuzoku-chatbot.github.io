@@ -6,12 +6,14 @@ fetch('https://ipinfo.io?callback')
 
 async function authorize() {
   let authorizedList = [];
-  await fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?mode=authorizedlist')
-    .then(res => res.text())
-    .then(text => {
-      const decodedText = decodeURIComponent(text);
-      authorizedList = JSON.parse(decodedText);
-    })
+  await fetch('https://gu98aazh13.microcms.io/api/v1/authorized?limit=100&fields=email', {
+    method: 'GET',
+    headers: {
+      'X-MICROCMS-API-KEY': 'ppE8q49tSAAXCyCsLIPa8zBaaz0BtKu2BQfL',
+      'Content-Type': 'application/json'
+    }})
+    .then(res => res.json())
+    .then(json => authorizedList = json.contents.map(item => item.email))
     .catch(error => console.error('Error:', error.message));
   return authorizedList.includes(userData['email']);
 }
