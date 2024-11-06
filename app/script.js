@@ -112,7 +112,7 @@ function ask(userQuestion) {
       document.getElementById('authbackground').classList.remove('authed');
       window.alert('管理者から '+credential['email']+' の許可が取り消されました');
     }
-  }
+  });
 }
 
 // sendMessage関数 - 入力されたのを処理
