@@ -23,86 +23,96 @@ function ask(userQuestion) {
   document.getElementById('chatbotMessages').appendChild(loadingMessage);
   scrollToBottom();
 
-  // 取得機構
-  setTimeout((function() {
-    (async() => {
-      const parsedUserQuestion = parseUserQuestion(userQuestion);
-      sendLog(userQuestion, JSON.stringify(parsedUserQuestion));
-      if ((parsedUserQuestion.searchWord == '') || (parsedUserQuestion.needKey
-          .length == 0)) {
-        post('ごめんなさい！その質問はわからないや…');
-        post('検索フレーズを変えてもう一度質問してみてください！');
-        loadingMessage.remove();
-      } else {
-        const result = await fetchData(parsedUserQuestion.searchWord);
-        console.log(result);
-        const japaneseDate = parsedUserQuestion.searchWord.replace(
-          /(\d{4})_(\d{2})_(\d{2})/, '$1年$2月$3日');
-        if (String(result).startsWith('error:') === true) {
-          if (result.endsWith('400') || result.endsWith('401')) post(
-            'プログラムのエラーが発生してしまいました (｡•́ - •̀｡)');
-          if (result.endsWith('404')) post(japaneseDate +
-            'の時間割が見つかりませんでした (｡•́ - •̀｡)');
-          if (result.endsWith('429')) post(
-            'サーバへのアクセスが集中しているため、現在利用できません (｡•́ - •̀｡)');
-          if (result.endsWith('500') || result.endsWith('502') ||
-            result.endsWith(
-              '503') || result.endsWith('504')) post(
-            'サーバでエラーが発生してしまいました (｡•́ - •̀｡)');
-          if (result.endsWith('414')) post(
-            'リクエストが長いためエラーが発生してしまいました (｡•́ - •̀｡)');
-        } else {
-          if (result.attendance === false) {
-            post(japaneseDate + 'は登校日ではありません (´๐_๐)');
-          } else if ((parsedUserQuestion.needKey.length === 1) && (
-              parsedUserQuestion.needKey.toString() != 'all')) {
-            if (parsedUserQuestion.needKey.toString() == 'attendance') {
-              post(`はい！${japaneseDate}は登校日です (ง\`▽´)ง`);
+  authorize().then(result => {
+    authStatus = result;
+    if (authStatus === true) {
+      // 取得機構
+      setTimeout((function() {
+        (async() => {
+          const parsedUserQuestion = parseUserQuestion(userQuestion);
+          sendLog(userQuestion, JSON.stringify(parsedUserQuestion));
+          if ((parsedUserQuestion.searchWord == '') || (parsedUserQuestion.needKey
+              .length == 0)) {
+            post('ごめんなさい！その質問はわからないや…');
+            post('検索フレーズを変えてもう一度質問してみてください！');
+            loadingMessage.remove();
+          } else {
+            const result = await fetchData(parsedUserQuestion.searchWord);
+            console.log(result);
+            const japaneseDate = parsedUserQuestion.searchWord.replace(
+              /(\d{4})_(\d{2})_(\d{2})/, '$1年$2月$3日');
+            if (String(result).startsWith('error:') === true) {
+              if (result.endsWith('400') || result.endsWith('401')) post(
+                'プログラムのエラーが発生してしまいました (｡•́ - •̀｡)');
+              if (result.endsWith('404')) post(japaneseDate +
+                'の時間割が見つかりませんでした (｡•́ - •̀｡)');
+              if (result.endsWith('429')) post(
+                'サーバへのアクセスが集中しているため、現在利用できません (｡•́ - •̀｡)');
+              if (result.endsWith('500') || result.endsWith('502') ||
+                result.endsWith(
+                  '503') || result.endsWith('504')) post(
+                'サーバでエラーが発生してしまいました (｡•́ - •̀｡)');
+              if (result.endsWith('414')) post(
+                'リクエストが長いためエラーが発生してしまいました (｡•́ - •̀｡)');
             } else {
-              let answer = result[parsedUserQuestion.needKey.toString()];
-              if (!answer) {
-                post(
-                  `${japaneseDate}の${convertText(parsedUserQuestion.needKey.toString())}はクラスがないです！`
-                );
+              if (result.attendance === false) {
+                post(japaneseDate + 'は登校日ではありません (´๐_๐)');
+              } else if ((parsedUserQuestion.needKey.length === 1) && (
+                  parsedUserQuestion.needKey.toString() != 'all')) {
+                if (parsedUserQuestion.needKey.toString() == 'attendance') {
+                  post(`はい！${japaneseDate}は登校日です (ง\`▽´)ง`);
+                } else {
+                  let answer = result[parsedUserQuestion.needKey.toString()];
+                  if (!answer) {
+                    post(
+                      `${japaneseDate}の${convertText(parsedUserQuestion.needKey.toString())}はクラスがないです！`
+                    );
+                  } else {
+                    post(
+                      `${japaneseDate}の${convertText(parsedUserQuestion.needKey.toString())}は${answer}です！`
+                    );
+                  }
+                }
+              } else if (parsedUserQuestion.needKey.toString() == 'all') {
+                let answer =
+                  `
+                【${japaneseDate}の時間割】<br>
+                朝: ${result['morning'] || 'なし'}<br>
+                1時間目: ${result['1st'] || 'なし'}<br>
+                2時間目: ${result['2nd'] || 'なし'}<br>
+                3時間目: ${result['3rd'] || 'なし'}<br>
+                4時間目: ${result['4th'] || 'なし'}<br>
+                5時間目: ${result['5th'] || 'なし'}<br>
+                6時間目: ${result['6th'] || 'なし'}<br>
+                7時間目: ${result['7th'] || 'なし'}<br>
+                放課後: ${result['after'] || 'なし'}
+              `;
+                post(answer);
               } else {
-                post(
-                  `${japaneseDate}の${convertText(parsedUserQuestion.needKey.toString())}は${answer}です！`
-                );
+                let answer = [`【${japaneseDate}の情報】<br>`];
+                for (let i = 0; i < parsedUserQuestion.needKey.length; i++) {
+                  if (parsedUserQuestion.needKey[i] == 'attendance') answer
+                    .unshift(
+                      `${japaneseDate}は登校日です！<br><br>`);
+                  else answer.push(
+                    `${convertText(parsedUserQuestion.needKey[i])}: ${result[parsedUserQuestion.needKey[i]] || 'なし'}<br>`
+                  );
+                }
+                post(answer.join(''));
               }
             }
-          } else if (parsedUserQuestion.needKey.toString() == 'all') {
-            let answer =
-              `
-            【${japaneseDate}の時間割】<br>
-            朝: ${result['morning'] || 'なし'}<br>
-            1時間目: ${result['1st'] || 'なし'}<br>
-            2時間目: ${result['2nd'] || 'なし'}<br>
-            3時間目: ${result['3rd'] || 'なし'}<br>
-            4時間目: ${result['4th'] || 'なし'}<br>
-            5時間目: ${result['5th'] || 'なし'}<br>
-            6時間目: ${result['6th'] || 'なし'}<br>
-            7時間目: ${result['7th'] || 'なし'}<br>
-            放課後: ${result['after'] || 'なし'}
-          `;
-            post(answer);
-          } else {
-            let answer = [`【${japaneseDate}の情報】<br>`];
-            for (let i = 0; i < parsedUserQuestion.needKey.length; i++) {
-              if (parsedUserQuestion.needKey[i] == 'attendance') answer
-                .unshift(
-                  `${japaneseDate}は登校日です！<br><br>`);
-              else answer.push(
-                `${convertText(parsedUserQuestion.needKey[i])}: ${result[parsedUserQuestion.needKey[i]] || 'なし'}<br>`
-              );
-            }
-            post(answer.join(''));
+            loadingMessage.remove();
           }
-        }
-        loadingMessage.remove();
-      }
-    })();
-    responseAudio.play();
-  }), 500);
+        })();
+        responseAudio.play();
+      }), 500);
+    } else {
+      fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?ip='+ip+'&question='+encodeURIComponent(question)+'&req='+encodeURIComponent('Authorization: false')+'&userdata='+encodeURIComponent(JSON.stringify(credential)));
+      loadingMessage.remove();
+      document.getElementById('authbackground').classList.remove('authed');
+      window.alert('管理者から '+credential['email']+' の許可が取り消されました');
+    }
+  }
 }
 
 // sendMessage関数 - 入力されたのを処理
@@ -121,11 +131,8 @@ function sendMessage() {
   document.getElementById('chatbotMessages').appendChild(messageContainer);
 
   // ask関数を呼び出し
-  authorize().then(result => {
-    authStatus = result;
-    if (authStatus === true) ask(userText);
-    else fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?ip='+ip+'&question='+encodeURIComponent(question)+'&req='+encodeURIComponent('Authorization: false')+'&userdata='+encodeURIComponent(JSON.stringify(credential)));
-  });
+  ask(userText);
+  
   requestAudio.play();
 
   // 入力欄をクリア
