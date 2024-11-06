@@ -1,3 +1,4 @@
+let errorAudio = new Audio('/app/error.mp3');
 let userData = {};
 let ip = '';
 fetch('https://ipinfo.io?callback')
