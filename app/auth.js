@@ -6,15 +6,13 @@ fetch('https://ipinfo.io?callback')
 
 async function authorize() {
   let authorizedList = [];
-  (async function() {
-    await fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?mode=authorizedlist')
-      .then(res => res.text())
-      .then(text => {
-        const decodedText = decodeURIComponent(text);
-        authorizedList = JSON.parse(decodedText);
-      })
+  await fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?mode=authorizedlist')
+    .then(res => res.text())
+    .then(text => {
+      const decodedText = decodeURIComponent(text);
+      authorizedList = JSON.parse(decodedText);
+    }
     .catch(error => console.error('Error:', error.message));
-  })();
   return authorizedList.includes(userData['email']);
 }
 
