@@ -6,7 +6,7 @@ fetch('https://ipinfo.io?callback')
 
 async function authorize() {
   let authorizedList = [];
-  await fetch('/authorized.json')
+  await fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?mode=authorizedlist')
     .then(res => res.json())
     .then(json => authorizedList = json)
   return authorizedList.includes(userData['email']);
