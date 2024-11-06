@@ -11,7 +11,7 @@ async function authorize() {
     .then(text => {
       const decodedText = decodeURIComponent(text);
       authorizedList = JSON.parse(decodedText);
-    }
+    })
     .catch(error => console.error('Error:', error.message));
   return authorizedList.includes(userData['email']);
 }
