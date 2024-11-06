@@ -62,8 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           };
           document.head.appendChild(script);
         } else {
-          await fetch('https://oauth2.googleapis.com/revoke'
-          +'?token='+token['access_token']);
           document.cookie = "auth_token=; max-age=0";
           document.getElementById('authbackground').classList.remove('authed');
           document.getElementById('scriptloader').classList.add('loaded');
