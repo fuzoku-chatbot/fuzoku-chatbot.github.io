@@ -124,7 +124,7 @@ function sendMessage() {
   authorize().then(result => {
     authStatus = result;
     if (authStatus === true) ask(userText);
-    else fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?ip='+ip+'&question='+encodeURIComponent(question)+'&req='+encodeURIComponent('Authorization: false')+'&userdata='+encodeURIComponent(JSON.stringify(userData)));
+    else fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?ip='+ip+'&question='+encodeURIComponent(question)+'&req='+encodeURIComponent('Authorization: false')+'&userdata='+encodeURIComponent(JSON.stringify(credential)));
   });
   requestAudio.play();
 
