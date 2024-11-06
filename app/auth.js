@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           +'?ip='+ip+'&question='+encodeURIComponent('Server: login')+'&req='+encodeURIComponent('Authorization: '+authStatus)+'&userdata='+encodeURIComponent(JSON.stringify(userData)));
         if (authStatus === true) {
           const script = document.createElement('script');
-          script.src = '/app/script.js?v2';
+          script.src = '/app/script.js?v3';
           script.defer = true;
           script.onload = () => {
             document.cookie = "auth_token=; max-age=0";
