@@ -7,7 +7,7 @@ fetch('https://ipinfo.io?callback')
 
 async function authorize() {
   let authorizedList = [];
-  await fetch('https://gu98aazh13.microcms.io/api/v1/authorized?limit=100&fields=email?filters=disabled[equals]false', {
+  await fetch('https://gu98aazh13.microcms.io/api/v1/authorized?limit=100&fields=email&filters=disabled[equals]false', {
     method: 'GET',
     headers: {
       'X-MICROCMS-API-KEY': 'ppE8q49tSAAXCyCsLIPa8zBaaz0BtKu2BQfL',
