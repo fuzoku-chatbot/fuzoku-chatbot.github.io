@@ -286,7 +286,7 @@ function parseUserQuestion(userQuestion) {
     threedayBeforeYesterday.setDate(today.getDate() - 3);
     searchWord = formatDate(threedayBeforeYesterday.getFullYear(), threedayBeforeYesterday.getMonth(),
       threedayBeforeYesterday.getDate());
-  } else if (userQuestion.match(/一昨日|おととい|一昨日/)) {
+  } else if (userQuestion.match(/一昨日|おととい|いっさくじつ|おとつい/)) {
     const dayBeforeYesterday = new Date(today);
     dayBeforeYesterday.setDate(today.getDate() - 2);
     searchWord = formatDate(dayBeforeYesterday.getFullYear(), dayBeforeYesterday.getMonth(),
