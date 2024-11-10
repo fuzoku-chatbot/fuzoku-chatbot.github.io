@@ -276,11 +276,6 @@ function parseUserQuestion(userQuestion) {
     dayAfterTomorrow.setDate(today.getDate() + 2);
     searchWord = formatDate(dayAfterTomorrow.getFullYear(), dayAfterTomorrow.getMonth(),
       dayAfterTomorrow.getDate());
-  } else if (userQuestion.match(/昨日|きのう|昨日/)) {
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    searchWord = formatDate(yesterday.getFullYear(), yesterday.getMonth(),
-      yesterday.getDate());
   } else if (userQuestion.match(/一昨昨日|一昨々日|さきおととい|いっさくさくじつ/)) {
     const threedayBeforeYesterday = new Date(today);
     threedayBeforeYesterday.setDate(today.getDate() - 3);
@@ -291,6 +286,11 @@ function parseUserQuestion(userQuestion) {
     dayBeforeYesterday.setDate(today.getDate() - 2);
     searchWord = formatDate(dayBeforeYesterday.getFullYear(), dayBeforeYesterday.getMonth(),
       dayBeforeYesterday.getDate());
+  } else if (userQuestion.match(/昨日|きのう|昨日/)) {
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    searchWord = formatDate(yesterday.getFullYear(), yesterday.getMonth(),
+      yesterday.getDate());
   }
 
   // 時間帯の指定
