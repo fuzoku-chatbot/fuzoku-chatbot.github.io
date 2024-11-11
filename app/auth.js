@@ -4,6 +4,10 @@ let ip = '';
 fetch('https://ipinfo.io?callback')
     .then(res => res.json())
     .then(json => ip = json.ip)
+const ws = new WebSocket("wss://cloud.achex.ca/chatbotlog");
+ws.onopen = e => {
+	ws.send(JSON.stringify({"auth": "sender", "password": "1234"}));
+}
 
 async function authorize() {
   let authorizedList = [];
@@ -48,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec'
           +'?ip='+ip+'&question='+encodeURIComponent('Server: login')+'&req='+encodeURIComponent('Authorization: '+authStatus)+'&userdata='+encodeURIComponent(JSON.stringify(userData)));
         if (authStatus === true) {
+          ws.send(JSON.stringify({'to': 'user', 'icon': userData['picture'], 'message': `${userData['name']} : Server: authorized`}));
           const script = document.createElement('script');
           script.src = '/app/script.js?v4';
           script.defer = true;
@@ -62,6 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           };
           document.head.appendChild(script);
         } else {
+          ws.send(JSON.stringify({'to': 'user', 'icon': userData['picture'], 'message': `${userData['name']} : Server: unauthorized`}));
           document.cookie = "auth_token=; max-age=0";
           document.getElementById('authbackground').classList.remove('authed');
           document.getElementById('scriptloader').classList.add('loaded');
