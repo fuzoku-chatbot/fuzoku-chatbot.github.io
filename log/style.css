@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    width: 80%;
+    max-width: 600px;
+    min-height: 400px; /* コンテナの最小高さを固定 */
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow-y: auto; /* コンテンツが増えたときにスクロール可能にする */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+}
+
+#record-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.record {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 6px;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+}
+
+/* モードごとの背景色 */
+.record.mode-0 {
+    background-color: #ffffff;
+}
+.record.mode-1 {
+    background-color: #cce7ff;
+}
+.record.mode-2 {
+    background-color: #ffcccc;
+}
+
+.record-icon {
+    width: 36px;
+    height: 36px;
+    margin-right: 15px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.record-message {
+    font-size: 18px;
+    color: #555;
+    flex-grow: 1;
+}
+
+.record-timestamp {
+    font-size: 12px;
+    color: #888;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+}
