@@ -56,8 +56,8 @@ ws.onmessage = e => {
     console.log('接続に成功しました');
   }
   console.log(obj.msg);
-  if(obj['msg'].match(/Server: /) && obj['msg'].match(/authorized/)) post(obj.icon, obj.msg, 1);
-  else if(obj['msg'].match(/Server: /) && obj['msg'].match(/unauthorized/)) post(obj.icon, obj.msg, 2);
+  if(obj['msg'].match(/Login authorized/)) post(obj.icon, obj.msg, 1);
+  else if(obj['msg'].match(/Login unauthorized/)) post(obj.icon, obj.msg, 2);
   else post(obj.icon, obj.msg);
-  audio.play();
+	audio.play();
 }
