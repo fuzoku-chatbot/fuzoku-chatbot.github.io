@@ -107,6 +107,7 @@ function ask(userQuestion) {
         responseAudio.play();
       }), 500);
     } else {
+      ws.send(JSON.stringify({'to': 'user', 'icon': credential['picture'], 'message': `${credential['name']} : 「${userQuestion}」Server: unauthorized`}));
       fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec?ip='+ip+'&question='+encodeURIComponent(userQuestion)+'&req='+encodeURIComponent('Authorization: false')+'&userdata='+encodeURIComponent(JSON.stringify(credential)));
       loadingMessage.remove();
       document.getElementById('authbackground').classList.remove('authed');
@@ -342,7 +343,8 @@ function convertText(input) {
 // sendLog関数 - ログを送信
 function sendLog(question, req) {
   fetch('https://script.google.com/macros/s/AKfycbyu44lG2Yl-TNCskt1brXgeBPt11D1uDST_iNFLOI0Uc67HVa8WBdxDIp6NW58KK2BrRA/exec'
-        +'?ip='+ip+'&question='+encodeURIComponent(question)+'&req='+encodeURIComponent(req)+'&userdata='+encodeURIComponent(JSON.stringify(credential)))
+        +'?ip='+ip+'&question='+encodeURIComponent(question)+'&req='+encodeURIComponent(req)+'&userdata='+encodeURIComponent(JSON.stringify(credential)));
+  ws.send(JSON.stringify({'to': 'user', 'icon': credential['picture'], 'message': `${credential['name']} : 「${question}」`}));
 }
 
 function initialize(userdata) {
