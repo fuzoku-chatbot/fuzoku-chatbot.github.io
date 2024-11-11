@@ -294,7 +294,7 @@ function parseUserQuestion(userQuestion) {
   }
 
   // 時間帯の指定
-  if (userQuestion.match(/朝/)) needKey.push('morning');
+  if (userQuestion.match(/朝|あさ/)) needKey.push('morning');
   if (userQuestion.match(/放課後|ほうかご/)) needKey.push('after');
 
   // 質問内容に基づいて attendance を追加
