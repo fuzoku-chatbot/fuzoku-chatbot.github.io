@@ -1,3 +1,4 @@
+let audio = new Audio('/log/sound.mp3');
 function post(iconURI, msg, mode = 0) {
     const recordList = document.getElementById("record-list");
 
@@ -58,4 +59,5 @@ ws.onmessage = e => {
   if(obj['msg'].match(/Server: /) && obj['msg'].match(/authorized/)) post(obj.icon, obj.msg, 1);
   else if(obj['msg'].match(/Server: /) && obj['msg'].match(/unauthorized/)) post(obj.icon, obj.msg, 2);
   else post(obj.icon, obj.msg);
+  audio.play();
 }
