@@ -39,10 +39,9 @@ function post(iconURI, msg, mode = 0) {
     record.appendChild(recordMessage);
     record.appendChild(recordTimestamp);
 
-    // リストに新しいレコードを追加
-    recordList.appendChild(record);
+    // リストの最初に新しいレコードを追加
+    recordList.insertBefore(record, recordList.firstChild);
 }
-
 
 // WS接続（Achexへ接続）
 const ws = new WebSocket("wss://cloud.achex.ca/chatbotlog");
@@ -51,13 +50,13 @@ ws.onopen = e => {
 }
 // メッセージ受信
 ws.onmessage = e => {
-  var obj = JSON.parse(e.data);
-  if(obj.auth == 'OK'){
-    console.log('接続に成功しました');
-  }
-  console.log(obj.msg);
-  if(obj['msg'].match(/Login authorized/)) post(obj.icon, obj.msg, 1);
-  else if(obj['msg'].match(/Login unauthorized/)) post(obj.icon, obj.msg, 2);
-  else post(obj.icon, obj.msg);
-	audio.play();
+    var obj = JSON.parse(e.data);
+    if(obj.auth == 'OK'){
+        console.log('接続に成功しました');
+    }
+    console.log(obj.msg);
+    if(obj['msg'].match(/Login authorized/)) post(obj.icon, obj.msg, 1);
+    else if(obj['msg'].match(/Login unauthorized/)) post(obj.icon, obj.msg, 2);
+    else post(obj.icon, obj.msg);
+    audio.play();
 }
