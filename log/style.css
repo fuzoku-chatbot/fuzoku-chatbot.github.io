@@ -17,7 +17,7 @@ body, html {
 #container {
     width: 90%;
     max-width: 900px;
-    height: 400px; /* コンテナの高さを固定 */
+    height: 90%; /* コンテナの高さを固定 */
     background-color: #ffffff;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
