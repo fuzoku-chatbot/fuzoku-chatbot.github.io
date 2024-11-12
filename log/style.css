@@ -15,14 +15,15 @@ body, html {
 }
 
 #container {
-    width: 80%;
-    max-width: 600px;
-    min-height: 400px; /* コンテナの最小高さを固定 */
+    width: 90%;
+    max-width: 900px;
+    height: 400px; /* コンテナの高さを固定 */
     background-color: #ffffff;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow-y: auto; /* コンテンツが増えたときにスクロール可能にする */
+    display: flex;
+    flex-direction: column; /* 縦方向に配置 */
 }
 
 h1 {
@@ -36,6 +37,8 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    overflow-y: auto; /* リスト部分のみスクロール */
+    flex-grow: 1; /* 空いているスペースを占める */
 }
 
 .record {
