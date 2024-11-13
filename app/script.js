@@ -299,7 +299,7 @@ function parseUserQuestion(userQuestion) {
   if (userQuestion.match(/放課後|ほうかご/)) needKey.push('after');
 
   // 質問内容に基づいて attendance を追加
-  if (userQuestion.match(/登校日|学校ある|学校/)) {
+  if (userQuestion.match(/登校|学校/)) {
     needKey.push('attendance');
   }
 
