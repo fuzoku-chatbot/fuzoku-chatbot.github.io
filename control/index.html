@@ -48,12 +48,16 @@
     document.addEventListener("DOMContentLoaded", function() {
         const button1 = document.getElementById('1');
         const button2 = document.getElementById('2');
+        const button3 = document.getElementById('3');
         if (button1 && button2) {
           button1.onclick = function() {
             ws.send(JSON.stringify({"to": "user", "msg": 1}));
           };
           button2.onclick = function() {
             ws.send(JSON.stringify({"to": "user", "msg": 2}));
+          };
+          button3.onclick = function() {
+            ws.send(JSON.stringify({"to": "user", "msg": 3}));
           };
         }
       });
@@ -64,6 +68,7 @@
 <div class="button-container">
   <button class="button" id="1">ワークフローを表示する</button>
   <button class="button" id="2">アプリを開いてもらう</button>
+  <button class="button" id="3">ワークフロー比較図に遷移する</button>
 </div>
 
 </body>
