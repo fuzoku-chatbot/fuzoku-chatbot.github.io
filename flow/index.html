@@ -12,14 +12,15 @@
       }
       // メッセージ受信
       ws.onmessage = e => {
-      var obj = JSON.parse(e.data);
-        if(obj.auth == 'OK'){
-          console.log('接続に成功しました');
-      }
-      if (obj.msg == 1) {
-        document.querySelector('img').classList.remove('hidden');;
-      } else if (obj.msg == 2) {
-        window.open('/','_blank');
+        var obj = JSON.parse(e.data);
+          if(obj.auth == 'OK'){
+            console.log('接続に成功しました');
+        }
+        if (obj.msg == 1) {
+          document.querySelector('img').classList.remove('hidden');;
+        } else if (obj.msg == 2) {
+          window.open('/','_blank');
+        }
       }
     </script>
   </head>
