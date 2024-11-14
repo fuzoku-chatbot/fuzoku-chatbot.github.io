@@ -110,7 +110,8 @@
     };
     setTimeout(addLoadedClass, minimumDisplayTime);
     window.addEventListener("load", addLoadedClass);
-});
+  });
+  if (new URL(window.location.href).searchParams.get('popup') == 'true') window.open('/flow','_blank');
 </script>
 <div class="loader-background">
   <div class="loader">Loading...</div>
