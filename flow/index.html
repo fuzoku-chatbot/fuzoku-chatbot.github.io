@@ -4,8 +4,41 @@
     <meta charset="utf-8">
     <meta name="robots" content="none">
     <title>2Eチャットボットのワークフロー</title>
+    <script>
+      // WS接続（Achexへ接続）
+      const ws = new WebSocket("wss://cloud.achex.ca/chatbotcontorol");
+      ws.onopen = e => {
+        ws.send(JSON.stringify({"auth": "user", "password": "password"}));
+      }
+      // メッセージ受信
+      ws.onmessage = e => {
+      var obj = JSON.parse(e.data);
+        if(obj.auth == 'OK'){
+          console.log('接続に成功しました');
+      }
+      if (obj.msg == 1) {
+        document.querySelector('img').classList.remove('hidden');;
+      } else if (obj.msg == 2) {
+        window.open('/','_blank');
+      }
+    </script>
   </head>
-  <body style="margin: 0;">
-    <img src="/flow/workflow.png" style="width: 100%;">
+  <style>
+    body {
+      margin: 0;
+      background-color: #f0f0f0;
+      background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                        linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    img {
+      width: 100%;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+  <body>
+    <img src="/flow/workflow.png" class="hidden">
   </body>
 </html>
