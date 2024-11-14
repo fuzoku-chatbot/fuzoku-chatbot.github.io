@@ -9,6 +9,7 @@
         const div = document.querySelector('div');
         if (div) {
           div.onclick = function() {
+            window.open('/');
             this.classList.remove('hidden');
           };
         }
@@ -26,10 +27,9 @@
             console.log('接続に成功しました');
         }
         if (obj.msg == 1) {
-          document.querySelector('img').classList.remove('hidden');;
+          document.querySelector('img').classList.remove('hidden');
         } else if (obj.msg == 2) {
-          window.alert('アプリを開きます');
-          window.open('/');
+          document.querySelector('div').classList.remove('hidden');
         }
       }
     </script>
