@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="none">
+  <title>技術3コントロール</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f5;
+    }
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .button {
+      padding: 15px 30px;
+      font-size: 18px;
+      color: #ffffff;
+      background-color: #6c757d;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .button:hover {
+      background-color: #5a6268;
+      transform: scale(1.05);
+    }
+  </style>
+  <script>
+    // WS接続（Achexへ接続）
+      const ws = new WebSocket("wss://cloud.achex.ca/chatbotcontorol");
+      ws.onopen = e => {
+        ws.send(JSON.stringify({"auth": "admin", "password": "password"}));
+      }
+    document.addEventListener("DOMContentLoaded", function() {
+        const button1 = document.getElementById('1');
+        const button2 = document.getElementById('2');
+        if (button1 && button2) {
+          button1.onclick = function() {
+            ws.send(JSON.stringify({"to": "user", "msg": 1}));
+          };
+          button2.onclick = function() {
+            ws.send(JSON.stringify({"to": "user", "msg": 2}));
+          };
+        }
+      });
+  </script>
+</head>
+<body>
+
+<div class="button-container">
+  <button class="button" id="1">ワークフローを表示する</button>
+  <button class="button" id="2">アプリを開いてもらう</button>
+</div>
+
+</body>
+</html>
