@@ -5,9 +5,15 @@
     <meta name="robots" content="none">
     <title>2Eチャットボットのワークフロー</title>
     <script>
-      document.querySelector('div').onclick = function() {
-        this.classList.remove('hidden');
-      };
+      document.addEventListener("DOMContentLoaded", function() {
+        const div = document.querySelector('div');
+        if (div) {
+          div.onclick = function() {
+            this.classList.remove('hidden');
+          };
+        }
+      });
+
       // WS接続（Achexへ接続）
       const ws = new WebSocket("wss://cloud.achex.ca/chatbotcontorol");
       ws.onopen = e => {
@@ -40,7 +46,8 @@
       width: 100%;
     }
     .hidden {
-      display: none;
+      opacity: 0;
+      visibility: hidden;
     }
     .overlay {
       position: fixed;
