@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="robots" content="none">
-    <title>2Eチャットボットのワークフロー</title>
+    <title>技術３</title>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         const div = document.querySelector('div');
@@ -31,8 +31,6 @@
           document.querySelector('img').classList.add('hidden');
           document.querySelector('embed').classList.remove('hidden');
         } else if (obj.msg == 2) {
-          document.querySelector('embed').classList.add('hidden');
-          document.querySelector('img').classList.add('hidden');
           document.querySelector('div').classList.remove('hidden');
         } else if (obj.msg == 3) {
           document.querySelector('embed').classList.add('hidden');
@@ -66,6 +64,7 @@
     .hidden {
       opacity: 0;
       visibility: hidden;
+      position: absolute;
     }
     .overlay {
       position: fixed;
