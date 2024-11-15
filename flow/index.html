@@ -27,11 +27,17 @@
             console.log('接続に成功しました');
         }
         if (obj.msg == 1) {
+          document.querySelector('div').classList.add('hidden');
+          document.querySelector('img').classList.add('hidden');
           document.querySelector('embed').classList.remove('hidden');
         } else if (obj.msg == 2) {
+          document.querySelector('embed').classList.add('hidden');
+          document.querySelector('img').classList.add('hidden');
           document.querySelector('div').classList.remove('hidden');
         } else if (obj.msg == 3) {
-          window.location.href('/flow/workflow2.pdf');
+          document.querySelector('embed').classList.add('hidden');
+          document.querySelector('div').classList.add('hidden');
+          document.querySelector('img').classList.remove('hidden');
         }
       }
     </script>
@@ -45,7 +51,7 @@
                         linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
       background-size: 30px 30px;
     }
-    embed {
+    embed, img {
       width: 100%;
       height: 100%;
     }
@@ -82,5 +88,6 @@
       <div class="sub-message">画面をクリックしてください</div>
     </div>
     <embed src="/flow/workflow.pdf" type="application/pdf" class="hidden">
+    <img src="/flow/compare.png" class="hidden">
   </body>
 </html>
